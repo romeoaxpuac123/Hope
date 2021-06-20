@@ -1,0 +1,113 @@
+.FichaInicial {
+    background: rgb(2, 0, 36);
+    background: radial-gradient(circle, rgba(2, 0, 36, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(172, 199, 237, 1) 62%);
+    width: 40%;
+    margin-left: 30%;
+    border-radius: 15px;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    box-shadow: 3px 3px 6px #999;
+    margin-top: 3%;
+}
+
+.FotoPerfil {
+    background-color: transparent;
+    margin-top: 3%;
+    background-size: 100% 100%;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    text-align: center;
+}
+
+#sidemenu #profile #photo {
+    box-sizing: border-box;
+    margin: 0 auto;
+    width: 40%;
+    height: 10%;
+}
+
+#sidemenu #profile #photo img {
+    border-radius: 50%;
+    width: 35%;
+}
+
+#sidemenu #profile #photo,
+#sidemenu #profile #name {
+    font-size: 150%;
+    padding: 10px 0;
+    overflow: hidden;
+    color: rgb(129, 111, 111);
+}
+
+.Ficha {
+    text-align: center;
+}
+
+.Ficha span {
+    color: rgb(129, 111, 111);
+    display: block;
+    font-size: 125%;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.Ficha input,
+.Ficha select {
+    width: 40%;
+    font-size: 100%;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+#boton_personalizado {
+    text-decoration: none;
+    padding: 10px;
+    font-weight: 100;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: #67686d;
+    border-radius: 6px;
+    border: 2px solid #67686d;
+}
+
+#boton_personalizado:hover {
+    color: #1883ba;
+    background-color: #ffffff;
+}
+
+@media all and (max-width: 600px) {
+    .FotoPerfil {
+        background-color: transparent;
+        position: abasolute;
+        top: 0px;
+        left: 0px;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+        margin-left: 0%;
+    }
+    #sidemenu #profile #photo {
+        box-sizing: border-box;
+        margin: 0 auto;
+        width: 60%;
+        height: 10%;
+    }
+    .Ficha input,
+    .Ficha select {
+        width: 50%;
+        font-size: 100%;
+        margin-top: 5px;
+        border-radius: 5px;
+    }
+    .FichaInicial {
+        background: rgb(2, 0, 36);
+        background: radial-gradient(circle, rgba(2, 0, 36, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(172, 199, 237, 1) 62%);
+        width: 80%;
+        margin-left: 10%;
+        border-radius: 15px;
+        border-top-color: transparent;
+        border-bottom-color: transparent;
+        box-shadow: 3px 3px 6px #999;
+        margin-top: 3%;
+    }
+}

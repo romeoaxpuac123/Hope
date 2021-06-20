@@ -1,0 +1,49 @@
+<app-menu>
+
+</app-menu>
+
+
+<body class="Cuerpo1" id="cuerpo" style="margin-left:50px; background-color:#212121;">
+    <app-encabezado2 id="Cabeza"></app-encabezado2>
+    <br><br><br><br>
+
+
+    <h1>Bandeja de entrada</h1>
+    <br>
+    <button (click)="EnviarMensaje()" id="boton_personalizado">Enviar mensaje</button>
+    <br><br>
+    <table flex="20" id="racetimes">
+        <tr id="firstrow">
+            <th id="Numero">Numero</th>
+            <th id="Asunto">Asunto</th>
+            <th id="Remitente">De</th>
+            <th id="Mensaje">Mensaje</th>
+            <th id="Fecha">Correo</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let mensaje of Mensajes;let indice=index">
+            <td id="Numero1" *ngIf="indice<Pagina*5 && indice>=(Pagina-1)*5">{{indice+1}}</td>
+            <td id="Asunto1" *ngIf="indice<Pagina*5 && indice>=(Pagina-1)*5">{{ this.mensajeCorto2(mensaje.Asunto)}}</td>
+            <td id="Remitente1" *ngIf="indice<Pagina*5 && indice>=(Pagina-1)*5">{{this.mensajeCorto2(mensaje.De)}}</td>
+            <td id="Mensaje1" *ngIf="indice<Pagina*5 && indice>=(Pagina-1)*5">{{this.mensajeCorto(mensaje.Mensaje)}}</td>
+            <td id="Fecha1" *ngIf="indice<Pagina*5 && indice>=(Pagina-1)*5">{{mensaje.Fecha}}</td>
+            <td *ngIf="indice<Pagina*5 && indice>=(Pagina-1)*5"><button (click)="mostrarMensaje(mensaje.De,mensaje.Asunto,mensaje.Fecha,mensaje.Mensaje)" style="background-color: transparent; border: none; width:70%; height:70%;"><img style="display: block; height: 50px; width: 50px;" src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/mas.png?raw=true"></button></td>
+        </tr>
+        <tr>
+    </table>
+    <div class="paginacion" style="background-color:#212121;">
+        <a>
+            <button id="Anterior" (click)="disminuirPagina()" style="background-color: transparent; border: none; "><img style=" height: 50px; width: 50px;" src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/anterior.png?raw=true"></button>
+            <span style="font-size: 30px; color:aqua">{{Pagina}}</span>
+            <button id="Siguiente" (click)="aumentarPagina()" style="background-color: transparent; border: none; "><img style=" height: 50px; width: 50px;" src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/siguiente.png?raw=true"></button>
+        </a>
+
+
+    </div>
+
+
+
+
+    <br><br><br><br><br>
+    <app-copyright></app-copyright>
+</body>

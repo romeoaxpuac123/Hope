@@ -1,0 +1,37 @@
+<app-menu>
+</app-menu>
+
+
+<body class="Cuerpo1" id="cuerpo" style="margin-left:50px; background-color:#212121;">
+    <app-encabezado2 id="Cabeza"></app-encabezado2>
+    <br><br><br><br>
+    <div class="Cuerpo2">
+        <div class="container2">
+            <a id="ruta" href="https://www.facebook.com/HopeDiabetic" target="_blank">
+                <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Banner6.jpg?raw=true" id="slide">
+            </a>
+        </div>
+    </div>
+    <div class="Cuerpo3">
+        <br><br>
+    </div>
+    <div class="itemMenu">
+        <li *ngFor="let texto of arregloMenu">
+            <div class="info" id="Info1">
+                <div id="texto">
+                    <h3 id="titulo">{{texto["titulo"]}}</h3>
+                    <hr size="2%" color="black" />
+                    <h5 id="Mostrar">{{texto["texto"]}}</h5>
+                </div>
+                <div id="botoninfo">
+                    <a href="{{texto.enlace}}" target="_blank">
+                        <button id="boton_personalizado">Ver</button>
+                    </a>
+                </div>
+
+            </div>
+        </li>
+    </div>
+
+    <app-copyright></app-copyright>
+</body>

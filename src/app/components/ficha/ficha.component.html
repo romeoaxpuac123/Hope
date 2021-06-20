@@ -1,0 +1,147 @@
+<app-menu>
+
+</app-menu>
+
+
+<body class="Cuerpo1" id="cuerpo" style="margin-left:50px; background-color:#212121;">
+    <app-encabezado2 id="Cabeza"></app-encabezado2>
+    <br><br><br><br>
+    <div class="FichaInicial">
+        <div class="FotoPerfil">
+            <div id="sidemenu">
+                <div id="profile">
+                    <div id="photo">
+                        <img src={{Foto}} alt="">
+                    </div>
+                    <div id="name">
+                        <span>{{Nombre + " " + Apellido}}</span>
+                        <br>
+                        <span>{{Usuario}}</span>
+                        <br><br>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="Ficha">
+            <span>Estatura:</span>
+            <input [(ngModel)]="Estatura" type="text" value={{Estatura}} />
+            <br>
+            <span>Peso:</span>
+            <input [(ngModel)]="Peso" type="text" value={{Peso}} />
+            <br>
+            <span>Ultimo Control:</span>
+            <input [(ngModel)]="Ultimo_Control" type="date" value={{Ultimo_Control}}>
+            <br>
+            <span>Grupo Sanguineo:</span>
+            <input [(ngModel)]="Grupo_Sanguineo" type="text" value={{Grupo_Sanguineo}} />
+            <br>
+
+            <datalist id="itemsMedicina">
+                <option value="Metformina">Metformina</option>
+                <option value="Inyeccion de insulina">Inyección de insulina</option>
+                <option value="Glimepirida">Glimepirida</option>
+                <option value="Tolbutamida">Tolbutamida</option>
+                <option value="Glipizida">Glipizida</option>
+                <option value="Gliburida">Gliburida</option>
+                <option value="Gliburida, micronizada">Gliburida, micronizada</option>
+                <option value="Repaglinida">Repaglinida</option>
+                <option value="Nateglinida">Nateglinida</option>
+                <option value="Acarbosa">Acarbosa</option>
+                <option value="Pioglitazona">Pioglitazona</option>
+                <option value="Rosiglitazona">Rosiglitazona</option>
+                <option value="Liraglutida">Liraglutida</option>
+                <option value="Albiglutida">Albiglutida</option>
+                <option value="Dulaglutida">Dulaglutida</option>
+                <option value="Alogliptina">Alogliptina</option>
+                <option value="Sitagliptina">Sitagliptina</option>
+                <option value="Saxagliptina">Saxagliptina</option>
+                <option value="Linagliptina">Linagliptina</option>
+                <option value="Canagliflozina">Canagliflozina</option>
+                <option value="Dapagliflozina">Dapagliflozina</option>
+                <option value="Empagliflozina">Empagliflozina</option>
+            </datalist>
+            <span>Medicamento:</span>
+            <input [(ngModel)]="Medicamente1" type="text" list="itemsMedicina" value={{Medicamente1}} />
+            <br>
+            <span>Medicamento:</span>
+            <input [(ngModel)]="Medicamente2" type="text" list="itemsMedicina" value={{Medicamente2}}/>
+            <br>
+            <span>Medicamento:</span>
+            <input [(ngModel)]="Medicamente3" type="text" list="itemsMedicina" value={{Medicamente3}} />
+            <br>
+            <span>Medicamento:</span>
+            <input [(ngModel)]="Medicamente4" type="text" list="itemsMedicina" value={{Medicamente4}}/>
+            <br>
+            <span>Medicamento:</span>
+            <input [(ngModel)]="Medicamente5" type="text" list="itemsMedicina" value={{Medicamente5}}/>
+            <br>
+            <datalist id="itemsIntolerancia">
+                <option value="Alergia al huevo">Alergia al huevo</option>
+                <option value="Alergia al marisco">Alergia al marisco</option>
+                <option value="Alergia al pescado">Alergia al pescado</option>
+                <option value="Alergia a frutos secos">Alergia a frutos secos</option>
+                <option value="Alergia a legumbres">Alergia a legumbres</option>
+                <option value="Alergia a cereales">Alergia a cereales</option>
+                <option value="Alergia a verduras">Alergia a verduras</option>
+                <option value="Alergia a frutas">Alergia a frutas</option>
+                <option value="Gluten">Gluten</option>
+                <option value="Lactosa">Lactosa</option>
+                <option value="Histamina">Histamina</option>
+            </datalist>
+
+            <span>Intolerencia:</span>
+            <input [(ngModel)]="Intolerancia1" type="text" list="itemsIntolerancia" value={{Intolerancia1}}/>
+            <br>
+            <span>Intolerencia:</span>
+            <input [(ngModel)]="Intolerancia2" type="text" list="itemsIntolerancia" value={{Intolerancia2}}/>
+            <br>
+            <span>Intolerencia:</span>
+            <input [(ngModel)]="Intolerancia3" type="text" list="itemsIntolerancia" value={{Intolerancia3}}/>
+            <br>
+            <!--
+            <span>Cirujias:</span>
+            <select [(ngModel)]="CirucijaTexto" name="Cirujias" id="Cirujias">
+                <option >NO</option>                            
+                <option >SI</option>                         
+            </select>
+            <br>
+            -->
+            <datalist id="itemsEnfermedades">
+                <option value="Enfermedades respiratorias">Enfermedades respiratorias</option>
+                <option value="Enfermedad celiaca">Enfermedad celíaca</option>
+                <option value="Alteraciones tiroideas">Alteraciones tiroideas</option>
+                <option value="Enfermedades adrenales">Enfermedades adrenales</option>
+                <option value="Problemas en la piel">Problemas en la piel</option>
+                <option value="Hipoglicemia">Hipoglicemia</option>
+                <option value="Hiperglucemia">Hiperglucemia</option>
+                <option value="Daño renal">Daño renal</option>
+                <option value="Enfermedad del corazon">Enfermedad del corazón</option>
+                <option value="Enfermedad en los vasos sanguineos">Enfermedad en los vasos sanguineos</option>
+                <option value="Osteoporosis">Osteoporosis</option>
+                <option value="Retinopatía">Retinopatía</option>
+            </datalist>
+
+            <span>Enfermedad:</span>
+            <input [(ngModel)]="Enfermedad1" type="text" list="itemsEnfermedades" value={{Enfermedad1}} />
+            <br>
+            <span>Enfermedad:</span>
+            <input [(ngModel)]="Enfermedad2" type="text" list="itemsEnfermedades" value={{Enfermedad2}}/>
+            <br>
+            <span>Enfermedad:</span>
+            <input [(ngModel)]="Enfermedad3" type="text" list="itemsEnfermedades" value={{Enfermedad3}}/>
+            <br>
+            <br>
+            <button (click)="ActualizarFicha();" id="boton_personalizado">Registrar o Actualizar Ficha</button>
+            <br>
+            <br>
+        </div>
+    </div>
+
+
+
+
+
+    <br><br><br>
+    <app-copyright></app-copyright>
+</body>

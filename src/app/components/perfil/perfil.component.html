@@ -1,0 +1,65 @@
+<app-menu>
+
+</app-menu>
+
+
+<body class="Cuerpo1" id="cuerpo" style="margin-left:50px; background-color:#212121;">
+    <app-encabezado2 id="Cabeza"></app-encabezado2>
+    <br><br><br><br>
+    <div class="FotoPerfil">
+        <div id="sidemenu">
+            <div id="profile">
+                <div id="photo">
+                    <img src={{foto}} alt="">
+                </div>
+                <div id="name">
+                    <span>{{Nombre + " " + Apellido}}</span>
+                    <br>
+                    <span>{{Usuario}}</span>
+                    <br><br>
+                    <input type="file" name="file" id="file" class="inputfile" />
+                    <label for="file">Nueva foto de perfil</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="InformacionPerfil">
+        <div id="sidemenu">
+            <div id="profile">
+
+                <div id="name">
+                    <span>Nombre:</span>
+                    <input [(ngModel)]="Nombre" type="text" value={{Nombre}} />
+                    <br>
+                    <span>Apellido:</span>
+                    <input [(ngModel)]="Apellido" type="text" value={{Apellido}} />
+                    <br>
+                    <span>Usuario:</span>
+                    <input type="text" value={{Usuario}} />
+                    <br>
+                    <span>Contraseña:</span>
+                    <input [(ngModel)]="contrasena" type="password" value={{contrasena}} />
+                    <br>
+                    <span>Correo:</span>
+                    <input [(ngModel)]="correo" type="text" value={{correo}} />
+                    <br *ngIf="Medico==false">
+                    <span *ngIf="Medico==false">Sexo:</span>
+                    <input [(ngModel)]="sexo" *ngIf="Medico==false" type="text" value={{sexo}} />
+                    <br>
+                    <span *ngIf="Medico==false">Nacimiento:</span>
+                    <input [(ngModel)]="nacimiento" *ngIf="Medico==false" type="date" value={{nacimiento}}>
+
+                </div>
+                <button (click)="Actualizar();" id="boton_personalizado">Actualizar Datos</button>
+            </div>
+            <br>
+        </div>
+
+    </div>
+
+
+    <br><br><br><br><br>
+    <app-copyright></app-copyright>
+</body>

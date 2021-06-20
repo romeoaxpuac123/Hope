@@ -1,0 +1,154 @@
+<body>
+    <section id="intro">
+        <ul id="slippry-slider">
+            <li>
+                <a href="#slide1"><img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/inicio1.png?raw=true" alt=""></a>
+            </li>
+            <li>
+                <a href="#slide2"><img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/inicio3.png?raw=true" alt=""></a>
+            </li>
+            <li>
+                <a href="#slide3"><img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/inicio4.png?raw=true" alt=""></a>
+            </li>
+        </ul>
+    </section>
+    <!-- end intro -->
+
+    <!-- Section about -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="heading">
+                        <h3><span>&copy;Hope Diabetic</span></h3>
+                    </div>
+                    <div class="sub-heading">
+                        <p>
+                            Hope Diabetic basado en el lema “Controlar la diabetes no es una ciencia, es un arte”, ofrece un servicio web que permitirá a sus usuario el poder tener recomendaciones, vigilancia y documentación sanitaria (glucemia, alimentación, medicamentos, peso)
+                            respecto a su enfermedad y así mismo el hacer un seguimiento rápido y visual de los niveles de glucosa y otras hematológicas que ha mantenido, por medio de gráficas, estas gráficas son creadas por información proporcionada
+                            por el usuario y analizada por medio distintos sistemas de información.
+                        </p>
+
+                        <div class="container2">
+                            <a id="ruta" href="https://www.facebook.com/HopeDiabetic" target="_blank">
+                                <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Banner5.jpg?raw=true" id="slide">
+                            </a>
+                        </div>
+                        <br><br>
+                        <h3><span>Nuestros servicios:</span></h3>
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="team-box">
+
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/servicio111.png?raw=true" alt="" class="img-responsive" />
+                        <div class="roles">
+
+                            <h5><strong>Hematologías</strong></h5>
+                            <h4>
+                                Control de hematologñias, en nuestra plataforma podrás registrar todas tus hematologías (glucosa, colesterol, creatinina, entre otros) y ver un reporte basado en tus registros.
+                            </h4>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="team-box">
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/servicio22.png?raw=true" alt="" class="img-responsive" />
+                        <div class="roles">
+                            <h5><strong>Recomendaciones</strong></h5>
+                            <h4>
+                                Basándonos en tus registros hematológicos podemos brindarte recomendaciones en alimentación, rutinas de ejercicio, lecturas, entre otros.
+                            </h4>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="team-box">
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/servicio33.png?raw=true" alt="" class="img-responsive" />
+                        <div class="roles">
+                            <h5><strong>Alertas</strong></h5>
+                            <h4>
+                                Podrás agregar recordatorios referentes a los horarios de tus medicamentos y registrar tus futuras citas médicas tomando en cuenta el día y hora.
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="team-box">
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/servicio44.png?raw=true" alt="" class="img-responsive" />
+                        <div class="roles">
+                            <h5><strong>Comunicación</strong></h5>
+                            <h4>
+                                Nuestro sistema cuenta con varios miembros podrás comunicarte con ellos, y tener comunicación con tu médico principal, previamente este se encuentre registrado.
+                            </h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end section about -->
+
+    <!-- section contact -->
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="heading">
+                        <h3><span>Contáctanos</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="contenedor">
+
+            <div id="contenedorcentrado">
+                <div id="login">
+                    <form id="loginform">
+                        <label for="usuario">Tu Nombre</label>
+                        <input [(ngModel)]="nombre" id="usuario" type="text" name="usuario" placeholder="Nombre" required>
+
+                        <label for="asunto">Asunto</label>
+                        <input [(ngModel)]="asunto" id="asunto" type="text" name="asunto" placeholder="Asunto" required>
+
+                        <label for="correo">Correo</label>
+                        <input [(ngModel)]="correo" id="correo" type="email" name="correo" placeholder="ejemplo@correo.com" required>
+
+                        <label for="Mensaje">Mensaje</label>
+                        <textarea [(ngModel)]="mensaje" id="w3review" name="w3review" rows="4" cols="50"></textarea>
+
+                        <button (click)="Contactanos()" type="submit" title="Enviar" name="Enviar">Enviar</button>
+                    </form>
+
+                </div>
+                <div id="derecho">
+                    <div class="titulo">
+                        Escríbenos...
+                    </div>
+                    <hr>
+                    <div class="pie-form">
+                        <a href="#">Dejanos tus comentarios, sugerencias, opiniones.</a>
+                        <a href="#">Queremos saber de ti.</a>
+                        <hr>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- end section contact -->
+
+    <a href="#" class="scrollup"><i class="fa fa-angle-up fa-2x"></i></a>
+    <!-- javascript -->
+</body>

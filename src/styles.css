@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import 'assets/css/fancybox/jquery.fancybox.css';
+@import 'assets/css/bootstrap.css';
+@import 'assets/css/bootstrap-theme.css';
+@import 'assets/css/slippry.css';
+@import 'assets/css/style.css';
+@import 'assets/color/default.css';
+body {
+    background-color: #212121;
+}

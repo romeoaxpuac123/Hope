@@ -1,0 +1,15 @@
+h1 {
+    color: white;
+}
+
+#boton_personalizado {
+    text-decoration: none;
+    padding: 10px;
+    font-weight: 100;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: #67686d;
+    border-radius: 6px;
+    border: 2px solid #67686d;
+    margin-top: 3px;
+}

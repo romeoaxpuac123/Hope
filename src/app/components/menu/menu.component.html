@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Side menu</title>
+    <link rel="stylesheet" href="menu.component.css">
+</head>
+
+<body>
+    <div id="sidemenu" class="menu-collapsed">
+        <!-- HEADER -->
+        <div id="header">
+            <div id="title">
+                <span>Menú principal</span>
+            </div>
+
+            <div alt="Menú" title="Desplegar Menú" id="menu-btn" (click)="ExpandirMenu()">
+                <div class="btn-hamburger"></div>
+                <div class="btn-hamburger"></div>
+                <div class="btn-hamburger"></div>
+            </div>
+
+
+        </div>
+        <!-- PROFILE -->
+        <div id="profile">
+            <div id="photo">
+                <img src={{FotoPerfil}} alt="">
+            </div>
+            <div id="name">
+                <span>{{NombreUsuario}}</span>
+            </div>
+        </div>
+        <!-- ITEMS -->
+        <div id="menu-items">
+            <div class="item separator"></div>
+            <div class="item" alt="Home" title="Home">
+                <a href="Home">
+                    <div style="float: left" class="icon">
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/Home.png?raw=true" alt="">
+                    </div>
+                    <div id="title">
+                        <span style="font-size:24px;">Home</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator"></div>
+
+            <div class="item" alt="Mi perfil" title="Mi Perfil">
+                <a href="Perfil">
+                    <div style="float: left" class="icon">
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/Perfil.png?raw=true" alt="">
+                    </div>
+                    <div id="title">
+                        <span style="font-size:24px;">Perfil</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator"></div>
+
+            <div class="item" alt="Mensajes" title="Mensajes">
+                <a href="Mensaje">
+                    <div style="float: left" class="icon">
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/Correo.png?raw=true" alt="">
+                    </div>
+                    <div id="title">
+                        <span style="font-size:24px;">Bandeja de entrada</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator" *ngIf="EsMedico==false"></div>
+
+            <div class="item" alt="Hematologia" title="Registrar Hematologia" *ngIf="EsMedico==false">
+                <a href="Hematologia">
+                    <div style="float: left" class="icon">
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/Hematologia.png?raw=true" alt="">
+                    </div>
+                    <div id="title">
+                        <span style="font-size:24px;">Hematologías</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator" *ngIf="EsMedico==false"></div>
+
+            <div class="item" alt="Reportes" title="Mis reportes" *ngIf="EsMedico==false">
+                <a href="Reportes">
+                    <div style="float: left" class="icon">
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/Estadistica.png?raw=true" alt="">
+                    </div>
+                    <div id="title">
+                        <span style="font-size:24px;">Reportes</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator" *ngIf="EsMedico==false"></div>
+
+            <div class="item" alt="Recomendaciones" title="Recomendaciones del día" *ngIf="EsMedico==false">
+                <a href="#">
+                    <div style="float: left" class="icon">
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/Recomendacion.png.png?raw=true" alt="">
+                    </div>
+                    <div id="title">
+                        <span style="font-size:24px;">Recomendaciones</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator" *ngIf="EsMedico==true"></div>
+            <!-- lo que ve el doctor-->
+            <div class="item" *ngIf="EsMedico==true">
+                <a href="#">
+                    <div style="float: left" alt="Pacientes" title="Mis Pacientes" class="icon">
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/Pacientes.png?raw=true" alt="">
+                    </div>
+                    <div id="title">
+                        <span style="font-size:24px;">Pacientes</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator" *ngIf="EsMedico==true"></div>
+
+            <div class="item" alt="Reportes" title="Ver reportes de mis pacientes" *ngIf="EsMedico==true">
+                <a href="#">
+                    <div style="float: left" class="icon">
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/Hematologia.png?raw=true" alt="">
+                    </div>
+                    <div id="title">
+                        <span style="font-size:24px;">Reportes Hemalogicos</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator"></div>
+            <div class="item" alt="Cerrar Sesión" title="Cerrar Sesión">
+                <a (click)="SesionOff()" href="#">
+                    <div style="float: left" class="icon">
+                        <img src="https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/FinSesion.png?raw=true" alt="">
+                    </div>
+                    <div id="title">
+                        <span style="font-size:24px;">Cerrar Sesión</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator"></div>
+
+            <!-- fin doctores-->
+
+            <br><br><br><br><br><br><br><br>
+        </div>
+    </div>
+
+</body>
+
+</html>

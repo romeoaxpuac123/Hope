@@ -1,0 +1,100 @@
+* {
+    font-family: Helvetica Neue, Arial, sans-serif;
+}
+
+.paginacion {
+    text-align: center;
+}
+
+#boton_personalizado {
+    text-decoration: none;
+    padding: 10px;
+    font-weight: 100;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: #67686d;
+    border-radius: 6px;
+    border: 2px solid #67686d;
+    margin-left: 44%;
+}
+
+#boton_personalizado:hover {
+    color: #1883ba;
+    background-color: #ffffff;
+}
+
+@media all and (max-width: 600px) {
+    table {
+        border-collapse: collapse;
+        width: 50%;
+    }
+    #boton_personalizado {
+        margin-left: 20%;
+    }
+    #Numero,
+    #Numero1,
+    #Mensaje,
+    #Mensaje1,
+    #Fecha,
+    #Fecha1 {
+        display: none;
+    }
+}
+
+h1,
+table {
+    text-align: center;
+}
+
+h1 {
+    color: white;
+}
+
+table {
+    border-collapse: collapse;
+    width: 70%;
+    margin: 0 auto 5rem;
+}
+
+th,
+td {
+    padding: 1.5rem;
+    font-size: 1.3rem;
+}
+
+tr {
+    background: white;
+}
+
+tr,
+td {
+    transition: .4s ease-in;
+}
+
+tr:first-child {
+    background: radial-gradient(circle, rgba(2, 0, 36, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(172, 199, 237, 1) 62%);
+    ;
+}
+
+tr:nth-child(even) {
+    background: rgba(172, 199, 237, 1);
+}
+
+td:empty {
+    background: #212121;
+}
+
+
+/*
+tr:hover:not(#firstrow),
+tr:hover td:empty {
+    background: rgb(106, 143, 144);
+    pointer-events: visible;
+}
+
+tr:hover:not(#firstrow) {
+    transform: scale(1.2);
+    font-weight: 700;
+    box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.5);
+}
+*/

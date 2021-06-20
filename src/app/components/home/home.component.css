@@ -1,0 +1,75 @@
+.info {
+    background: rgb(2, 0, 36);
+    background: radial-gradient(circle, rgba(2, 0, 36, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(172, 199, 237, 1) 62%);
+    overflow: hidden;
+    width: 60%;
+    height: 100%;
+    margin-left: 20%;
+    border-radius: 15px;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    box-shadow: 3px 3px 6px #999;
+    margin-top: 3%;
+}
+
+.info #titulo {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 3%;
+    color: black;
+    font-size: 150%;
+    font-family: fantasy;
+}
+
+.info #Mostrar {
+    margin-left: 15%;
+    margin-right: 15%;
+    color: black;
+    font-size: 80%;
+}
+
+.info #botoninfo {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 3%;
+}
+
+.info #Descripcion {
+    float: left;
+}
+
+.info #botoninfo {
+    float: right;
+}
+
+.Cuerpo1 {
+    background-color: #212121;
+}
+
+.Cuerpo2 {
+    background-color: #212121;
+    width: 70%;
+    height: 50%;
+    margin-left: 15%;
+}
+
+.Cuerpo3 {
+    background-color: #212121;
+    width: 50%;
+    height: 50%;
+    margin-left: 23%;
+}
+
+.Cuerpo2.container2 {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+}
+
+.container2 img {
+    width: 100%;
+    height: 70%;
+    box-shadow: 25px 25px 8px #444;
+    object-fit: cover;
+}

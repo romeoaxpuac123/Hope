@@ -96,7 +96,24 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery-1.9.1.min.js",
+              "/src/assets/js/jquery.easing.js",
+              "/src/assets/js/classie.js",
+              "/src/assets/js/bootstrap.js",
+              "/src/assets/js/slippry.min.js",
+              "/src/assets/js/nagging-menu.js",
+              "/src/assets/js/jquery.nav.js",
+              "/src/assets/js/jquery.scrollTo.js",
+              "/src/assets/js/jquery.fancybox.pack.js",
+              "/src/assets/js/jquery.fancybox-media.js",
+              "/src/assets/js/masonry.pkgd.min.js",
+              "/src/assets/js/imagesloaded.js",
+              "/src/assets/js/jquery.nicescroll.min.js",
+              "/src/assets/js/AnimOnScroll.js",
+              "/src/assets/js/custom.js",
+              "/src/assets/js/modernizr.custom.js"
+              ]
           }
         }
       }
