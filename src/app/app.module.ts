@@ -24,7 +24,12 @@ import { ReportesComponent } from './components/reportes/reportes.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MicroserviciosService} from './services/microservicios.service';
 import { ValidarCuentaComponent } from './components/validar-cuenta/validar-cuenta.component';
+// Import pdfmake-wrapper and the fonts to use
+import { PdfMakeWrapper } from 'pdfmake-wrapper';
+import * as pdfFonts from "pdfmake/build/vfs_fonts"; // fonts provided for pdfmake
 
+// Set the fonts to use
+PdfMakeWrapper.setFonts(pdfFonts);
 @NgModule({
   declarations: [
     AppComponent,
