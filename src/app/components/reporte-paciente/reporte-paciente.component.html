@@ -1,0 +1,132 @@
+<app-menu>
+
+</app-menu>
+
+
+<body class="Cuerpo1" id="cuerpo" style="margin-left:50px; background-color:#212121;">
+    <app-encabezado2 id="Cabeza"></app-encabezado2>
+    <br><br><br><br>
+    <h1>Generar reporte</h1>
+
+    <div class="Grupales">
+        <div class="BuscarPorRangos">
+            <input [(ngModel)]="correo" type="email" list="itemsMedicina" placeholder="correo@ejemplo.com" />
+            <br>
+            <label id="lBusqueda" for="Titulo">Rango de Busqueda</label>
+            <br>
+            <label id="linicio" for="FechaInicio">Fecha Inicio</label>
+            <br>
+            <input [(ngModel)]="FechaInicio" id="FechaInicio" type="date" name="Inicio">
+            <br><br>
+            <label id="lfinal" for="FechaFin">Fecha Final</label>
+            <br>
+            <input [(ngModel)]="FechaFinal" id="FechaFin" type="date" name="Fin">
+            <br>
+            <br>
+            <button (click)="ActualizarReprotes()" id="boton_personalizado">Actualizar Reportes</button>
+            <br>
+            <br>
+            <button (click)="Imprimir()" id="boton_personalizado">Imprimir Reportes</button>
+            <br>
+        </div>
+
+        <div id="Parte1">
+            <div id="HEMOGLOBINA">
+                <h2>Hemoglobina (%)</h2>
+                <canvas id="GraficaHEMOGLOBINA">
+            </canvas>
+                <br>
+            </div>
+            <div id="CREATININA">
+                <h2>Creatinina (mg/dl)</h2>
+                <canvas id="GraficaCREATININA">
+            </canvas>
+                <br>
+            </div>
+        </div>
+        <div id="Espacio">
+            <p></p>
+        </div>
+        <div id="Parte2">
+            <div id="GLUCOSAPRE_PRANDRIAL">
+                <h2>Glucosa(mg/dl)</h2>
+                <canvas id="GraficaGLUCOSAPRE_PRANDRIAL">
+            </canvas>
+                <br>
+            </div>
+            <div id="GLUCOSAPOST_PRANDRIAL">
+                <h2>Glucosa(mg/dl)</h2>
+                <canvas id="GraficaGLUCOSAPOST_PRANDRIAL">
+            </canvas>
+                <br>
+            </div>
+
+        </div>
+
+        <div id="Parte3">
+            <div id="GLUCOSAPOST_PEST">
+                <h2>Glucosa(mg/dl)</h2>
+                <canvas id="GraficaGLUCOSAPOST_PEST">
+            </canvas>
+                <br>
+            </div>
+            <div id="GLUCOSA_TOTAL">
+                <h2>Glucosa(mg/dl)</h2>
+                <canvas id="GraficaGLUCOSA_TOTAL">
+            </canvas>
+                <br>
+            </div>
+        </div>
+
+        <div id="Parte4">
+            <div id="COLESTEROL_TOTAL">
+                <h2>Colesterol(mg/dl)</h2>
+                <canvas id="GraficaCOLESTEROL_TOTAL">
+            </canvas>
+                <br>
+            </div>
+
+            <div id="COLESTEROL_HDL_LDL">
+                <h2>Colesterol(mg/dl)</h2>
+                <canvas id="GraficaCOLESTEROL_HDL_LDL">
+            </canvas>
+                <br>
+            </div>
+        </div>
+        <div id="Parte5">
+            <div id="TRIGLICERIDOS">
+                <h2>Trigliceridos(mg/dl)</h2>
+                <canvas id="GraficaTRIGLICERIDOS">
+            </canvas>
+                <br>
+            </div>
+            <div id="LIPIDOS">
+                <h2>Lipidos(mg/dl)</h2>
+                <canvas id="GraficaLIPIDOS">
+            </canvas>
+                <br>
+            </div>
+        </div>
+        <div id="Parte6">
+            <div id="ASPARTATO">
+                <h2>ASAT-TGO(UI/L)</h2>
+                <canvas id="GraficaASPARTATO">
+            </canvas>
+                <br>
+            </div>
+            <div id="ALANINO">
+                <h2>ALAT-TGP(UI/L)</h2>
+                <canvas id="GraficaALANINO">
+            </canvas>
+                <br>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <br><br><br>
+    <app-copyright></app-copyright>
+</body>

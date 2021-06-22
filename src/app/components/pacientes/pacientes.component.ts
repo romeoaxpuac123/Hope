@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MicroserviciosService } from '../../services/microservicios.service';
 import { LocalService } from '../../services/local.service';
 import { Router } from '@angular/router';
@@ -9,18 +9,20 @@ import { Subscription } from 'rxjs';
   templateUrl: './pacientes.component.html',
   styleUrls: ['./pacientes.component.css']
 })
-export class PacientesComponent implements OnInit {
+export class PacientesComponent implements OnInit, OnDestroy {
   public Alamars: AlertasComponent = new AlertasComponent;
   public OnnSesion: boolean = false;
   public lista: any = [];
-  public correo:string = "";
-  public subscription : Subscription = new Subscription();
+  public correo: string = "";
+  public subscription: Subscription = new Subscription();
   constructor(
     private Microservicio: MicroserviciosService,
     private Almacenamiento: LocalService,
     private navegacion: Router,
   ) { }
-
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
   ngOnInit(): void {
     this.OnnSesion = this.SesionOnn();
     if (this.OnnSesion == false) {
@@ -33,9 +35,9 @@ export class PacientesComponent implements OnInit {
       } else {
         //Acciones de inicio para un medico
         this.VerPacientes();
-        this.subscription = this.Microservicio.refresh3$.subscribe(()=>{
+        this.subscription = this.Microservicio.refresh3$.subscribe(() => {
           this.VerPacientes();
-        })  
+        })
       }
     }
   }
@@ -62,7 +64,7 @@ export class PacientesComponent implements OnInit {
     return false;
   }
 
-  VerPacientes(){
+  VerPacientes() {
     this.lista = [];
     var Info = this.Almacenamiento.ObtenerInformacionLS("Usuario");
     var o = JSON.parse(Info);
@@ -70,7 +72,7 @@ export class PacientesComponent implements OnInit {
     this.Microservicio.ObtenerPacientes(usuario).subscribe((resp: any) => {
       if (resp.msg == true) {
         for (let MensajeRecibido of resp.info) {
-          
+
           console.log("ACA BUSCAMOS LA INFORMACIÓN DEL PACIENTE");
           var HEMOGLOBINA = "--";
           var GLUCOSAPRE = "--";
@@ -79,42 +81,42 @@ export class PacientesComponent implements OnInit {
           var TRIGLICERIDOS = "--";
           this.Microservicio.DatosPaciente(MensajeRecibido.External_ID_Cliente).subscribe((resp2: any) => {
             if (resp2.msg == true) {
-              for(let InformacionPaciente of resp2.info){
-                if(InformacionPaciente.Internal_ID_Hematologia == 1){
+              for (let InformacionPaciente of resp2.info) {
+                if (InformacionPaciente.Internal_ID_Hematologia == 1) {
                   HEMOGLOBINA = InformacionPaciente.Cantidad;
                 }
-                else if(InformacionPaciente.Internal_ID_Hematologia == 2){
+                else if (InformacionPaciente.Internal_ID_Hematologia == 2) {
                   GLUCOSAPRE = InformacionPaciente.Cantidad;
                 }
-                else if(InformacionPaciente.Internal_ID_Hematologia == 3){
+                else if (InformacionPaciente.Internal_ID_Hematologia == 3) {
                   GLUCOSAPOST = InformacionPaciente.Cantidad;
                 }
-                else if(InformacionPaciente.Internal_ID_Hematologia == 4){
+                else if (InformacionPaciente.Internal_ID_Hematologia == 4) {
                   CREATININA = InformacionPaciente.Cantidad;
                 }
-                if(InformacionPaciente.Internal_ID_Hematologia == 8){
+                if (InformacionPaciente.Internal_ID_Hematologia == 8) {
                   TRIGLICERIDOS = InformacionPaciente.Cantidad;
                 }
               }
-              
+
               this.lista.push({
                 "Nombre": MensajeRecibido.Nombre + " " + MensajeRecibido.Apellido,
                 "Correo": MensajeRecibido.Email,
                 "Foto": MensajeRecibido.fotografia,
                 "HEMOGLOBINA": HEMOGLOBINA + " %",
                 "PRE_PRANDRIAL": GLUCOSAPRE + " mg/dl",
-                "POST_PRANDRIAL": GLUCOSAPOST+ " mg/dl",
+                "POST_PRANDRIAL": GLUCOSAPOST + " mg/dl",
                 "CREATININA": CREATININA + " mg/dl",
                 "TRIGLICERIDOS": TRIGLICERIDOS + " mg/dl",
               })
-            }else{
+            } else {
               this.lista.push({
                 "Nombre": MensajeRecibido.Nombre + " " + MensajeRecibido.Apellido,
                 "Correo": MensajeRecibido.Email,
                 "Foto": MensajeRecibido.fotografia,
                 "HEMOGLOBINA": HEMOGLOBINA + " %",
                 "PRE_PRANDRIAL": GLUCOSAPRE + " mg/dl",
-                "POST_PRANDRIAL": GLUCOSAPOST+ " mg/dl",
+                "POST_PRANDRIAL": GLUCOSAPOST + " mg/dl",
                 "CREATININA": CREATININA + " mg/dl",
                 "TRIGLICERIDOS": TRIGLICERIDOS + " mg/dl",
               })
@@ -126,36 +128,36 @@ export class PacientesComponent implements OnInit {
     });
   }
 
-  agregar(){
+  agregar() {
     console.log("Agregar Paciente");
     var Info = this.Almacenamiento.ObtenerInformacionLS("Usuario");
     var o = JSON.parse(Info);
     var usuario = o.user
-    if(this.correo != ""){
-      this.Microservicio.Relacion(usuario,this.correo).subscribe((resp: any) => {
-        if (resp.msg == true) { 
-          this.Alamars.Mensaje_De_Error("Erro en asignación","El paciente ya ha sido asignado a sus registros");
-        }else{
+    if (this.correo != "") {
+      this.Microservicio.Relacion(usuario, this.correo).subscribe((resp: any) => {
+        if (resp.msg == true) {
+          this.Alamars.Mensaje_De_Error("Error en asignación", "El paciente ya ha sido asignado a sus registros");
+        } else {
           this.Microservicio.CodigoPaciente(this.correo).subscribe((resp2: any) => {
-            if (resp2.msg == true) { 
+            if (resp2.msg == true) {
               console.log("ASIGNAR AL PACIENTE->" + resp2.info[0].External_ID_Cliente);
               console.log("ASIGNAR AL MEDICO->" + o.user);
-              this.Microservicio.Asignacion(resp2.info[0].External_ID_Cliente,o.user).subscribe((resp23: any) => {
-                if (resp23.msg == true) { 
-                  this.Alamars.Mensaje_De_Confirmacion("Asignación Correcta","El paciente fue asignado de forma satisfactoria");
-                }else{
-                  this.Alamars.Mensaje_De_Error("ERRO EN EL SISTEMA","Existio un problema al crear la asignación, disculpe las molestias");
+              this.Microservicio.Asignacion(resp2.info[0].External_ID_Cliente, o.user).subscribe((resp23: any) => {
+                if (resp23.msg == true) {
+                  this.Alamars.Mensaje_De_Confirmacion("Asignación Correcta", "El paciente fue asignado de forma satisfactoria");
+                } else {
+                  this.Alamars.Mensaje_De_Error("ERRO EN EL SISTEMA", "Existio un problema al crear la asignación, disculpe las molestias");
                 }
               });
-            }else{
-              this.Alamars.Mensaje_De_Error("Datos incorrectos","El correo ingresado no se encuentra registrado");
-            } 
+            } else {
+              this.Alamars.Mensaje_De_Error("Datos incorrectos", "El correo ingresado no se encuentra registrado");
+            }
           });
-        } 
+        }
       });
-    }else{
-      this.Alamars.Mensaje_De_Error("Datos incorrectos","Ingrese el correo del paciente");
+    } else {
+      this.Alamars.Mensaje_De_Error("Datos incorrectos", "Ingrese el correo del paciente");
     }
-   
+
   }
 }

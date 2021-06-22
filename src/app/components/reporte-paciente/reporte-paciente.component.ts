@@ -1,18 +1,20 @@
-import { Component, OnInit, ɵConsole } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { MicroserviciosService } from '../../services/microservicios.service';
 import { LocalService } from '../../services/local.service';
 import { Router } from '@angular/router';
 import { AlertasComponent } from '../alertas/alertas.component';
 import { PdfMakeWrapper, Txt, Img, Table } from 'pdfmake-wrapper';
-Chart.register(...registerables);
 @Component({
-  selector: 'app-reportes',
-  templateUrl: './reportes.component.html',
-  styleUrls: ['./reportes.component.css']
+  selector: 'app-reporte-paciente',
+  templateUrl: './reporte-paciente.component.html',
+  styleUrls: ['./reporte-paciente.component.css']
 })
-export class ReportesComponent implements OnInit {
+export class ReportePacienteComponent implements OnInit {
   public Alamars: AlertasComponent = new AlertasComponent;
+  public OnnSesion: boolean = false;
+  public lista: any = [];
+  public correo: string = "";
   chart: any = [];
   FechasIndiviaduales: any = [];
   ValoresIndivuales: any = [];
@@ -77,28 +79,19 @@ export class ReportesComponent implements OnInit {
   public TipoHemalogias: any = [];
   public RangoDeFechas: any = [];
   //Variables para metodos
-  public OnnSesion: boolean = false;
-  public EsMedicoA: boolean = false;
-  public CodigoUsuarioH: number = 0;
-  public HematologiABuscar: string = "";
   public FechaInicio: string = "";
   public FechaFinal: string = "";
-  // para grafica grande
-  public HematologiABuscarGENERAL: string = "";
-  public codigoHematologiaGENERAL: number = 0;
-  public FechaInicioGENERAL: string = "";
-  public FechaFinalGENERAL: string = "";
-
+  public CodigoUsuarioH: number = 0;
+  public NombreDocumento:string = "";
+  public ApellidoDocumento:string = "";
+  public GeneroDocumento:string = ""; 
+  public CorreoDocumento:string = "";
   constructor(
     private Microservicio: MicroserviciosService,
     private Almacenamiento: LocalService,
     private navegacion: Router,
-  ) {
 
-    this.RangoDeFechas = [
-      "Ultimo día", "Ultimos cinco días", "Ultima Semana", "Ultimas dos semanas", "Ultimo mes", "Ultimos tres meses"
-    ];
-  }
+  ) { }
 
   ngOnInit(): void {
     this.OnnSesion = this.SesionOnn();
@@ -106,18 +99,12 @@ export class ReportesComponent implements OnInit {
       this.Alamars.Mensaje_De_Error("Usuario sin permisos", "Para hacer uso de esta función inice sesión");
       this.navegacion.navigate(['']);
     } else {
-      if (this.EsMedico() == true) {
+      if (this.EsMedico() == false) {
         this.Alamars.Mensaje_De_Error("Usuario sin permisos", "Para hacer uso de esta función inice sesión");
         this.navegacion.navigate(['']);
       } else {
-        //Metodo para ver todas tus hematologias
-        this.ObtenerNombreHematologias();
-
-        this.VerReporteIndividualINICIO();
-        //Gracias individuales :D
-        var Info = this.Almacenamiento.ObtenerInformacionLS("Usuario");
-        var o = JSON.parse(Info);
-        this.CodigoUsuarioH = o.user
+        this.CodigoUsuarioH = 0;
+        //Acciones de inicio para un medico
         this.ActualizarHEMOGLOBINAINICIO(this.CodigoUsuarioH);
         this.ActualizarCREATININAINICIO(this.CodigoUsuarioH);
         this.ActualizarGLUCOSAPRE_PRANDRIALINICIO(this.CodigoUsuarioH);
@@ -131,49 +118,300 @@ export class ReportesComponent implements OnInit {
         this.ActualizarASPARTATOINICIO(this.CodigoUsuarioH);
         this.ActualizarALANINOINICIO(this.CodigoUsuarioH);
         this.ColesterolesIndividualesINICIO(this.CodigoUsuarioH);
-
       }
     }
+  }
+  SesionOnn(): boolean {
+    var Info = this.Almacenamiento.ObtenerInformacionLS("Usuario");
+    console.log("hooooooooooolaXD");
+    console.log("-" + Info + "-")
+    var o = JSON.parse(Info);
+    console.log(o);
+    if (o != null) {
+      return true;
+    }
 
+    return false;
+  }
+  EsMedico(): boolean {
+    var Info = this.Almacenamiento.ObtenerInformacionLS("Tipo");
 
-
-
+    var o = JSON.parse(Info);
+    if (o.TipoUsuario == 'Medico') {
+      return true;
+    }
+    return false;
+  }
+  Imprimir() {
+    if(this.CodigoUsuarioH == 0){
+      this.Alamars.Mensaje_De_Error("ERROR", "Debe realizar previamente una busqueda");
+    }else{
+      const pdf = new PdfMakeWrapper();
+      new Img('./assets/a.png').height(80).width(50).alignment('center').build().then(img => {
+  
+        pdf.add(img);
+        pdf.add(new Txt('HOPE DIABETIC®').alignment('center').bold().fontSize(12).end)
+        pdf.add(new Txt('Reporte Hematologías').alignment('center').bold().fontSize(18).end)
+        pdf.add(pdf.ln(1));
+        //Información paciente//
+        ;
+        this.CodigoUsuarioH = this.CodigoUsuarioH;
+        var today = new Date();
+        pdf.add(new Table([
+          ["Paciente:", this.NombreDocumento + " " + this.ApellidoDocumento],
+          ["Sexo:", this.GeneroDocumento],
+          ["Correo:", this.CorreoDocumento],
+          ["Fecha de Impresion", today.toString()]
+        ]).widths([140, 180]).layout("noBorders").fontSize(10).alignment('left').end
+        );
+        pdf.add(pdf.ln(1));
+        var Encabezado = ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro'];
+        //Agregando Hemoglobina
+        //this.DatosHEMOGLOBINAX = [];
+        //this.DatosHEMOGLOBINAY
+        pdf.add(new Txt('HEMOGLOBINA GLICOSILADA').alignment('center').italics().fontSize(18).end)
+        pdf.add(pdf.ln(1));
+        pdf.add(new Table([
+          Encabezado
+        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
+        );
+        for (var i = 0; i < this.DatosHEMOGLOBINAX.length; i++) {
+          pdf.add(new Table([
+            ["HEMOGLOBINA GLICOSILADA", this.DatosHEMOGLOBINAY[i], "DIABETES BUEN CONTROL 5.5 - 6.8%", this.DatosHEMOGLOBINAX[i]]
+          ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
+          );
+        }
+        //Agregando CREATININA
+        // this.DatosCREATININAX = [];
+        //this.DatosCREATININAY = [];
+        pdf.add(pdf.ln(1));
+        pdf.add(new Txt('CREATININA').alignment('center').italics().fontSize(18).end)
+        pdf.add(pdf.ln(1));
+        pdf.add(new Table([
+          ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
+        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
+        );
+        for (var i = 0; i < this.DatosCREATININAY.length; i++) {
+          pdf.add(new Table([
+            ["CREATININA", this.DatosCREATININAY[i], "MUJERES 0.8-1.2 mg/dl\nHOMBRES 0.9-1.4 mg/dl", this.DatosCREATININAX[i]]
+          ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
+          );
+        }
+        //Agregando PRE PRANDIAL
+        //this.DatosPRE_PRANDRIALX = [];
+        //this.DatosPRE_PRANDRIALY = [];
+        pdf.add(pdf.ln(1));
+        pdf.add(new Txt('GLUCOSA PRE-PRANDRIAL').alignment('center').italics().fontSize(18).end)
+        pdf.add(pdf.ln(1));
+        pdf.add(new Table([
+          ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
+        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
+        );
+        for (var i = 0; i < this.DatosPRE_PRANDRIALX.length; i++) {
+          pdf.add(new Table([
+            ["PRE-PRANDRIAL", this.DatosPRE_PRANDRIALY[i], "65 - 110 mg/dl", this.DatosPRE_PRANDRIALX[i]]
+          ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
+          );
+        }
+        //Agregando POST PRANDIAL
+        //this.DatosPOST_PRANDRIALX = [];
+        //this.DatosPOST_PRANDRIALY = [];
+        pdf.add(pdf.ln(1));
+        pdf.add(new Txt('GLUCOSA POST-PRANDRIAL').alignment('center').italics().fontSize(18).end)
+        pdf.add(pdf.ln(1));
+        pdf.add(new Table([
+          ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
+        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
+        );
+        for (var i = 0; i < this.DatosPOST_PRANDRIALX.length; i++) {
+          pdf.add(new Table([
+            ["POST-PRANDRIAL", this.DatosPOST_PRANDRIALY[i], "80 - 160 mg/dl", this.DatosPOST_PRANDRIALX[i]]
+          ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
+          );
+        }
+  
+        //Agregando colesterol total
+        //this.DatosColesterolTotalX = [];
+        //this.DatosColesterolTotalY = [];
+        pdf.add(pdf.ln(1));
+        pdf.add(new Txt('COLESTEROL TOTAL').alignment('center').italics().fontSize(18).end)
+        pdf.add(pdf.ln(1));
+        pdf.add(new Table([
+          ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
+        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
+        );
+        for (var i = 0; i < this.DatosColesterolTotalX.length; i++) {
+          pdf.add(new Table([
+            ["Colesterol total", this.DatosColesterolTotalY[i], "Hasta 200 mg/dl", this.DatosColesterolTotalX[i]]
+          ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
+          );
+        }
+        //COLESTEROL HDL
+        //this.DatosColesterolHXindividual = [];
+        //this.DatosColesterolHYindividual = [];
+        pdf.add(pdf.ln(1));
+        pdf.add(new Txt('COLESTEROL HDL').alignment('center').italics().fontSize(18).end)
+        pdf.add(pdf.ln(1));
+        pdf.add(new Table([
+          ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
+        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
+        );
+        for (var i = 0; i < this.DatosColesterolHYindividual.length; i++) {
+          pdf.add(new Table([
+            ["Colesterol HDL", this.DatosColesterolHYindividual[i], "Mujeres Mayor a 45\nHombres Mayores a 35", this.DatosColesterolHXindividual[i]]
+          ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
+          );
+        }
+        //COLESTEROL LDL
+        //this.DatosColesteroDLYindividual = [];
+        //this.chartColesteroDLindividual= [];
+        pdf.add(pdf.ln(1));
+        pdf.add(new Txt('COLESTEROL LDL').alignment('center').italics().fontSize(18).end)
+        pdf.add(pdf.ln(1));
+        pdf.add(new Table([
+          ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
+        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
+        );
+        for (var i = 0; i < this.DatosColesteroDLYindividual.length; i++) {
+          pdf.add(new Table([
+            ["Colesterol LDL", this.DatosColesteroDLYindividual[i], "Hasta 130 mg/dl", this.chartColesteroDLindividual[i]]
+          ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
+          );
+        }
+        //TRIGLICERIDOS
+        // this.DatosTRIGLICERIDOSX = [];
+        //this.DatosTRIGLICERIDOSY = [];
+        pdf.add(pdf.ln(1));
+        pdf.add(new Txt('TRIGLICÉRIDOS').alignment('center').italics().fontSize(18).end)
+        pdf.add(pdf.ln(1));
+        pdf.add(new Table([
+          ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
+        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
+        );
+        for (var i = 0; i < this.DatosTRIGLICERIDOSY.length; i++) {
+          pdf.add(new Table([
+            ["Triglicéridos", this.DatosTRIGLICERIDOSY[i], "70 – 170 mg/dl", this.DatosTRIGLICERIDOSX[i]]
+          ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
+          );
+        }
+        //LÍPIDOS TOTALES
+        //this.DatosLIPIDOSX = [];
+        //this.DatosLIPIDOSY = [];
+        pdf.add(pdf.ln(1));
+        pdf.add(new Txt('LÍPIDOS TOTALES').alignment('center').italics().fontSize(18).end)
+        pdf.add(pdf.ln(1));
+        pdf.add(new Table([
+          ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
+        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
+        );
+        for (var i = 0; i < this.DatosLIPIDOSY.length; i++) {
+          pdf.add(new Table([
+            ["Lípidos totales", this.DatosLIPIDOSY[i], "400-1000 mg/dl", this.DatosLIPIDOSX[i]]
+          ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
+          );
+        }
+        //ASPARTATO AMINO TRANSFERASA --- ASAT-TGO
+        ////Acá va la gráfica individual de ASPARTATO
+        //this.DatosASPARTATOX = [];
+        //this.DatosASPARTATOY = [];
+        pdf.add(pdf.ln(1));
+        pdf.add(new Txt('ASPARTATO AMINO TRANSFERASA').alignment('center').italics().fontSize(18).end)
+        pdf.add(pdf.ln(1));
+        pdf.add(new Table([
+          ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
+        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
+        );
+        for (var i = 0; i < this.DatosASPARTATOY.length; i++) {
+          pdf.add(new Table([
+            ["ASAT-TGO", this.DatosASPARTATOY[i], "Hasta 40 UI/L", this.DatosASPARTATOX[i]]
+          ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
+          );
+        }
+        //ALANINO AMINO TRANSFERASA ALAT-TGP)
+        //   this.DatosALANINOX = [];
+        //this.DatosALANINOY = [];
+        pdf.add(pdf.ln(1));
+        pdf.add(new Txt('ALANINO AMINO TRANSFERASA').alignment('center').italics().fontSize(18).end)
+        pdf.add(pdf.ln(1));
+        pdf.add(new Table([
+          ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
+        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
+        );
+        for (var i = 0; i < this.DatosALANINOY.length; i++) {
+          pdf.add(new Table([
+            ["ALAT-TGP", this.DatosALANINOY[i], "Hasta 40 UI/L", this.DatosALANINOX[i]]
+          ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
+          );
+        }
+        pdf.create().download("Reporte " + this.NombreDocumento + " " + this.ApellidoDocumento);
+      });
+    }
+   
 
   }
-  ColesterolesIndividualesINICIO(usuario: number) {
-    this.DatosColesterolHXindividual = [];
-    this.DatosColesterolHYindividual = [];
-    this.DatosColesteroDLYindividual = [];
-    this.chartColesteroDLindividual = [];
+  ActualizarReprotes() {
+    console.log("Codigo actualizar XD");
+    let date: Date = new Date("2019-01-16");
+    var Fecha1 = new Date(this.FechaInicio);
+    var Fecha2 = new Date(this.FechaFinal);
+    console.log("HEMATOLOGIAS a buscar BUSCANDO XD->" + Fecha1);
+    console.log("HEMATOLOGIAS a buscar BUSCANDO XD->" + Fecha2);
+    console.log("HEMATOLOGIAS a buscar BUSCANDO XD->" + this.FechaInicio);
+    console.log("HEMATOLOGIAS a buscar BUSCANDO XD->" + this.FechaFinal);
 
-    this.Microservicio.verHematologiasReportes2(usuario, 6).subscribe((resp: any) => {
-      console.log(resp.info);
-      console.log(resp.msg);
-      console.log(resp);
-      if (resp.msg == true) {
-        for (let MensajeRecibido of resp.info) {
-          var FechaNueva = MensajeRecibido.Fecha_Registro.substring(0, 10);
-          var ValorNuevo = MensajeRecibido.Cantidad;
-          this.DatosColesterolHXindividual.push(FechaNueva);
-          this.DatosColesterolHYindividual.push(ValorNuevo);
-        }
-      }
-    });
+    this.CodigoUsuarioH = 4000;
+    if (Fecha1 > Fecha2) {
+      this.Alamars.Mensaje_De_Error("Datos incorrectos", "La fecha final debe ser superior o igual a la fecha de inicio");
 
-    this.Microservicio.verHematologiasReportes2(usuario, 7).subscribe((resp: any) => {
-      console.log(resp.info);
-      console.log(resp.msg);
-      console.log(resp);
-      if (resp.msg == true) {
-        for (let MensajeRecibido of resp.info) {
-          var FechaNueva = MensajeRecibido.Fecha_Registro.substring(0, 10);
-          var ValorNuevo = MensajeRecibido.Cantidad;
-          this.chartColesteroDLindividual.push(FechaNueva);
-          this.DatosColesteroDLYindividual.push(ValorNuevo);
-        }
+    } else {
+      if (this.FechaInicio == "" || this.FechaFinal == "" || this.correo == "") {
+        this.Alamars.Mensaje_De_Error("Datos incorrectos", "Las fechas de busquedas o el correo del usuario deben tener un valor");
+
+      } else {
+        var Info = this.Almacenamiento.ObtenerInformacionLS("Usuario");
+        var o = JSON.parse(Info);
+        var usuario = o.user
+        this.Microservicio.Relacion(usuario, this.correo).subscribe((resp: any) => {
+          if (resp.msg == true) {
+            this.Microservicio.CodigoPaciente(this.correo).subscribe((resp2: any) => {
+              if (resp2.msg == true) {
+                console.log("ASIGNAR AL PACIENTE->" + resp2.info[0].External_ID_Cliente);
+                console.log("ASIGNAR AL MEDICO->" + o.user);
+                this.CodigoUsuarioH = resp2.info[0].External_ID_Cliente;
+                this.NombreDocumento = resp2.info[0].Nombre;
+                this.ApellidoDocumento = resp2.info[0].Apellido;
+                this.GeneroDocumento = resp2.info[0].Genero;
+                this.CorreoDocumento = resp2.info[0].Email;
+                this.ActualizarHEMOGLOBINA(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.ActualizarCREATININA(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.ActualizarGLUCOSAPRE_PRANDRIAL(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.ActualizarGLUCOSAPOST_PRANDRIAL(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.ActualizarGLUCOSAPOST_PEST(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.ActualizarGLUCOSA_TOTAL(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.ActualizarCOLESTEROL_TOTAL(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.ActualizarCOLESTEROL_HDL_LDL(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.ActualizarTRIGLICERIDOS(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.ActualizarLIPIDOS(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.ActualizarASPARTATO(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.ActualizarALANINO(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.ColesterolesIndividuales(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
+                this.Alamars.Mensaje_De_Confirmacion("Reportes correctos","En la parte inferior puede observar los resultados");
+              } else {
+                this.Alamars.Mensaje_De_Error("Datos incorrectos", "El correo ingresado no se encuentra registrado");
+              }
+            });
+          } else {
+            this.Alamars.Mensaje_De_Error("Error en Busqueda", "El paciente no ha sido asignado a sus registros");
+
+          }
+        });
+
       }
-    });
+
+    }
+
   }
+  //Metodos individuales para cada gráfica
   ColesterolesIndividuales(fecha1: string, fecha2: string, usuario: number) {
     this.DatosColesterolHXindividual = [];
     this.DatosColesterolHYindividual = [];
@@ -208,497 +446,6 @@ export class ReportesComponent implements OnInit {
       }
     });
   }
-  VerReporteIndividual() {
-    if (this.HematologiABuscarGENERAL == "" || this.FechaFinalGENERAL == "" || this.FechaInicioGENERAL == "") {
-      this.Alamars.Mensaje_De_Error("ERROR", "La fecha inicial debe ser inferior a la final \no la hematología a buscar no se encuentra en nuestro sistema");
-
-    } else {
-      this.chart.destroy();
-      this.FechasIndiviaduales = [];
-      this.ValoresIndivuales = [];
-      this.DatosMaximosIndividuales = [];
-      this.DatosMinimosIndividuales = [];
-      this.Microservicio.IdHematologaReporte(this.HematologiABuscarGENERAL).subscribe((resp: any) => {
-        if (resp.msg == true) {
-          var identificadorH = resp.info[0].Internal_ID_Hematologia;
-          var ValMaximo = resp.info[0].Minimo;
-          var ValMinimo = resp.info[0].Maximo;
-          var Info = this.Almacenamiento.ObtenerInformacionLS("Usuario");
-          var o = JSON.parse(Info);
-          this.CodigoUsuarioH = o.user;
-          var sexoU = o.Genero;
-          if (sexoU.toString() == "Masculino") {
-            if (this.HematologiABuscarGENERAL.toString() == "COLESTEROL HDL") {
-              ValMaximo = 35;
-              ValMinimo = 0;
-            } else if (this.HematologiABuscarGENERAL.toString() == "CREATININA") {
-              ValMaximo = 1.4;
-              ValMinimo = 0.9;
-            }
-          } else {
-            if (this.HematologiABuscarGENERAL.toString() == "COLESTEROL HDL") {
-              ValMaximo = 45;
-              ValMinimo = 0;
-            } else if (this.HematologiABuscarGENERAL.toString() == "CREATININA") {
-              ValMaximo = 1.2;
-              ValMinimo = 0.8;
-            }
-          }
-          this.Microservicio.verHematologiasReportes(this.CodigoUsuarioH, identificadorH, this.FechaInicioGENERAL, this.FechaFinalGENERAL).subscribe((resp: any) => {
-            if (resp.msg == true) {
-              let titulo = this.HematologiABuscarGENERAL;
-              for (let MensajeRecibido of resp.info) {
-                var FechaNueva = MensajeRecibido.Fecha_Registro.substring(0, 10);
-                var ValorNuevo = MensajeRecibido.Cantidad;
-                this.FechasIndiviaduales.push(FechaNueva);
-                this.ValoresIndivuales.push(ValorNuevo);
-                this.DatosMaximosIndividuales.push(ValMaximo);
-                this.DatosMinimosIndividuales.push(ValMinimo);
-              }
-
-
-              if (this.DatosMinimosIndividuales[0] == 0) {
-                this.chart = new Chart('GraficaIndividual', {
-                  type: 'bar',
-                  data: {
-                    labels: this.FechasIndiviaduales,
-                    datasets: [
-                      {
-                        label: titulo,
-                        data: this.ValoresIndivuales,
-                        backgroundColor: [
-                          '#FDF63E'
-                        ],
-                        borderColor: [
-                          '#FDF63E'
-                        ],
-                        borderWidth: 1
-                      },
-                      {
-                        label: 'Valor Máximo',
-                        data: this.DatosMaximosIndividuales,
-                        backgroundColor: [
-                          '#27C3E4'
-                        ],
-                        borderColor: [
-                          '#27C3E4'
-                        ],
-                        borderWidth: 1
-                      }
-
-
-                    ]
-                  },
-                  options: {
-                    responsive: true,
-                    scales: {
-                      y: {
-                        beginAtZero: true
-                      }
-                    }
-                  }
-                });
-              } else {
-                this.chart = new Chart('GraficaIndividual', {
-                  type: 'bar',
-                  data: {
-                    labels: this.FechasIndiviaduales,
-                    datasets: [
-                      {
-                        label: 'Valor Minimo',
-                        data: this.DatosMinimosIndividuales,
-                        backgroundColor: [
-                          '#F95D70'
-                        ],
-                        borderColor: [
-                          '#F95D70'
-                        ],
-                        borderWidth: 1
-                      },
-                      {
-                        label: titulo,
-                        data: this.ValoresIndivuales,
-                        backgroundColor: [
-                          '#FDF63E'
-                        ],
-                        borderColor: [
-                          '#FDF63E'
-                        ],
-                        borderWidth: 1
-                      },
-                      {
-                        label: 'Valor Máximo',
-                        data: this.DatosMaximosIndividuales,
-                        backgroundColor: [
-                          '#27C3E4'
-                        ],
-                        borderColor: [
-                          '#27C3E4'
-                        ],
-                        borderWidth: 1
-                      }
-
-
-                    ]
-                  },
-                  options: {
-                    responsive: true,
-                    scales: {
-                      y: {
-                        beginAtZero: true
-                      }
-                    }
-                  }
-                });
-              }
-            } else {
-              let titulo = this.HematologiABuscarGENERAL;
-              if (this.DatosMinimosIndividuales[0] == 0) {
-                this.chart = new Chart('GraficaIndividual', {
-                  type: 'bar',
-                  data: {
-                    labels: this.FechasIndiviaduales,
-                    datasets: [
-                      {
-                        label: titulo,
-                        data: this.ValoresIndivuales,
-                        backgroundColor: [
-                          '#FDF63E'
-                        ],
-                        borderColor: [
-                          '#FDF63E'
-                        ],
-                        borderWidth: 1
-                      },
-                      {
-                        label: 'Valor Máximo',
-                        data: this.DatosMaximosIndividuales,
-                        backgroundColor: [
-                          '#27C3E4'
-                        ],
-                        borderColor: [
-                          '#27C3E4'
-                        ],
-                        borderWidth: 1
-                      }
-
-
-                    ]
-                  },
-                  options: {
-                    responsive: true,
-                    scales: {
-                      y: {
-                        beginAtZero: true
-                      }
-                    }
-                  }
-                });
-              } else {
-                this.chart = new Chart('GraficaIndividual', {
-                  type: 'bar',
-                  data: {
-                    labels: this.FechasIndiviaduales,
-                    datasets: [
-                      {
-                        label: 'Valor Minimo',
-                        data: this.DatosMinimosIndividuales,
-                        backgroundColor: [
-                          '#F95D70'
-                        ],
-                        borderColor: [
-                          '#F95D70'
-                        ],
-                        borderWidth: 1
-                      },
-                      {
-                        label: titulo,
-                        data: this.ValoresIndivuales,
-                        backgroundColor: [
-                          '#FDF63E'
-                        ],
-                        borderColor: [
-                          '#FDF63E'
-                        ],
-                        borderWidth: 1
-                      },
-                      {
-                        label: 'Valor Máximo',
-                        data: this.DatosMaximosIndividuales,
-                        backgroundColor: [
-                          '#27C3E4'
-                        ],
-                        borderColor: [
-                          '#27C3E4'
-                        ],
-                        borderWidth: 1
-                      }
-
-
-                    ]
-                  },
-                  options: {
-                    responsive: true,
-                    scales: {
-                      y: {
-                        beginAtZero: true
-                      }
-                    }
-                  }
-                });
-              }
-            }
-
-          });
-        }
-      });
-
-    }
-
-
-  }
-  Imprimir() {
-    const pdf = new PdfMakeWrapper();
-    new Img('./assets/a.png').height(80).width(50).alignment('center').build().then(img => {
-
-      pdf.add(img);
-      pdf.add(new Txt('HOPE DIABETIC®').alignment('center').bold().fontSize(12).end)
-      pdf.add(new Txt('Reporte Hematologías').alignment('center').bold().fontSize(18).end)
-      pdf.add(pdf.ln(1));
-      //Información paciente//
-      var Info = this.Almacenamiento.ObtenerInformacionLS("Usuario");
-      var o = JSON.parse(Info);
-      this.CodigoUsuarioH = o.user;
-      var today = new Date();
-      pdf.add(new Table([
-        ["Paciente:", o.name + " " + o.apellido],
-        ["Sexo:", o.Genero],
-        ["Correo:", o.email],
-        ["Fecha de Impresion", today.toString()]
-      ]).widths([140, 180]).layout("noBorders").fontSize(10).alignment('left').end
-      );
-      pdf.add(pdf.ln(1));
-      var Encabezado = ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro'];
-      //Agregando Hemoglobina
-      //this.DatosHEMOGLOBINAX = [];
-      //this.DatosHEMOGLOBINAY
-      pdf.add(new Txt('HEMOGLOBINA GLICOSILADA').alignment('center').italics().fontSize(18).end)
-      pdf.add(pdf.ln(1));
-      pdf.add(new Table([
-        Encabezado
-      ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
-      );
-      for (var i = 0; i < this.DatosHEMOGLOBINAX.length; i++) {
-        pdf.add(new Table([
-          ["HEMOGLOBINA GLICOSILADA", this.DatosHEMOGLOBINAY[i], "DIABETES BUEN CONTROL 5.5 - 6.8%", this.DatosHEMOGLOBINAX[i]]
-        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
-        );
-      }
-      //Agregando CREATININA
-      // this.DatosCREATININAX = [];
-      //this.DatosCREATININAY = [];
-      pdf.add(pdf.ln(1));
-      pdf.add(new Txt('CREATININA').alignment('center').italics().fontSize(18).end)
-      pdf.add(pdf.ln(1));
-      pdf.add(new Table([
-        ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
-      ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
-      );
-      for (var i = 0; i < this.DatosCREATININAY.length; i++) {
-        pdf.add(new Table([
-          ["CREATININA", this.DatosCREATININAY[i], "MUJERES 0.8-1.2 mg/dl\nHOMBRES 0.9-1.4 mg/dl", this.DatosCREATININAX[i]]
-        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
-        );
-      }
-      //Agregando PRE PRANDIAL
-      //this.DatosPRE_PRANDRIALX = [];
-      //this.DatosPRE_PRANDRIALY = [];
-      pdf.add(pdf.ln(1));
-      pdf.add(new Txt('GLUCOSA PRE-PRANDRIAL').alignment('center').italics().fontSize(18).end)
-      pdf.add(pdf.ln(1));
-      pdf.add(new Table([
-        ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
-      ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
-      );
-      for (var i = 0; i < this.DatosPRE_PRANDRIALX.length; i++) {
-        pdf.add(new Table([
-          ["PRE-PRANDRIAL", this.DatosPRE_PRANDRIALY[i], "65 - 110 mg/dl", this.DatosPRE_PRANDRIALX[i]]
-        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
-        );
-      }
-      //Agregando POST PRANDIAL
-      //this.DatosPOST_PRANDRIALX = [];
-      //this.DatosPOST_PRANDRIALY = [];
-      pdf.add(pdf.ln(1));
-      pdf.add(new Txt('GLUCOSA POST-PRANDRIAL').alignment('center').italics().fontSize(18).end)
-      pdf.add(pdf.ln(1));
-      pdf.add(new Table([
-        ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
-      ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
-      );
-      for (var i = 0; i < this.DatosPOST_PRANDRIALX.length; i++) {
-        pdf.add(new Table([
-          ["POST-PRANDRIAL", this.DatosPOST_PRANDRIALY[i], "80 - 160 mg/dl", this.DatosPOST_PRANDRIALX[i]]
-        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
-        );
-      }
-
-      //Agregando colesterol total
-      //this.DatosColesterolTotalX = [];
-      //this.DatosColesterolTotalY = [];
-      pdf.add(pdf.ln(1));
-      pdf.add(new Txt('COLESTEROL TOTAL').alignment('center').italics().fontSize(18).end)
-      pdf.add(pdf.ln(1));
-      pdf.add(new Table([
-        ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
-      ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
-      );
-      for (var i = 0; i < this.DatosColesterolTotalX.length; i++) {
-        pdf.add(new Table([
-          ["Colesterol total", this.DatosColesterolTotalY[i], "Hasta 200 mg/dl", this.DatosColesterolTotalX[i]]
-        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
-        );
-      }
-      //COLESTEROL HDL
-      //this.DatosColesterolHXindividual = [];
-      //this.DatosColesterolHYindividual = [];
-      pdf.add(pdf.ln(1));
-      pdf.add(new Txt('COLESTEROL HDL').alignment('center').italics().fontSize(18).end)
-      pdf.add(pdf.ln(1));
-      pdf.add(new Table([
-        ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
-      ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
-      );
-      for (var i = 0; i < this.DatosColesterolHYindividual.length; i++) {
-        pdf.add(new Table([
-          ["Colesterol HDL", this.DatosColesterolHYindividual[i], "Mujeres Mayor a 45\nHombres Mayores a 35", this.DatosColesterolHXindividual[i]]
-        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
-        );
-      }
-      //COLESTEROL LDL
-      //this.DatosColesteroDLYindividual = [];
-      //this.chartColesteroDLindividual= [];
-      pdf.add(pdf.ln(1));
-      pdf.add(new Txt('COLESTEROL LDL').alignment('center').italics().fontSize(18).end)
-      pdf.add(pdf.ln(1));
-      pdf.add(new Table([
-        ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
-      ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
-      );
-      for (var i = 0; i < this.DatosColesteroDLYindividual.length; i++) {
-        pdf.add(new Table([
-          ["Colesterol LDL", this.DatosColesteroDLYindividual[i], "Hasta 130 mg/dl", this.chartColesteroDLindividual[i]]
-        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
-        );
-      }
-      //TRIGLICERIDOS
-      // this.DatosTRIGLICERIDOSX = [];
-      //this.DatosTRIGLICERIDOSY = [];
-      pdf.add(pdf.ln(1));
-      pdf.add(new Txt('TRIGLICÉRIDOS').alignment('center').italics().fontSize(18).end)
-      pdf.add(pdf.ln(1));
-      pdf.add(new Table([
-        ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
-      ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
-      );
-      for (var i = 0; i < this.DatosTRIGLICERIDOSY.length; i++) {
-        pdf.add(new Table([
-          ["Triglicéridos", this.DatosTRIGLICERIDOSY[i], "70 – 170 mg/dl", this.DatosTRIGLICERIDOSX[i]]
-        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
-        );
-      }
-      //LÍPIDOS TOTALES
-      //this.DatosLIPIDOSX = [];
-      //this.DatosLIPIDOSY = [];
-      pdf.add(pdf.ln(1));
-      pdf.add(new Txt('LÍPIDOS TOTALES').alignment('center').italics().fontSize(18).end)
-      pdf.add(pdf.ln(1));
-      pdf.add(new Table([
-        ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
-      ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
-      );
-      for (var i = 0; i < this.DatosLIPIDOSY.length; i++) {
-        pdf.add(new Table([
-          ["Lípidos totales", this.DatosLIPIDOSY[i], "400-1000 mg/dl", this.DatosLIPIDOSX[i]]
-        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
-        );
-      }
-      //ASPARTATO AMINO TRANSFERASA --- ASAT-TGO
-      ////Acá va la gráfica individual de ASPARTATO
-      //this.DatosASPARTATOX = [];
-      //this.DatosASPARTATOY = [];
-      pdf.add(pdf.ln(1));
-      pdf.add(new Txt('ASPARTATO AMINO TRANSFERASA').alignment('center').italics().fontSize(18).end)
-      pdf.add(pdf.ln(1));
-      pdf.add(new Table([
-        ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
-      ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
-      );
-      for (var i = 0; i < this.DatosASPARTATOY.length; i++) {
-        pdf.add(new Table([
-          ["ASAT-TGO", this.DatosASPARTATOY[i], "Hasta 40 UI/L", this.DatosASPARTATOX[i]]
-        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
-        );
-      }
-      //ALANINO AMINO TRANSFERASA ALAT-TGP)
-      //   this.DatosALANINOX = [];
-      //this.DatosALANINOY = [];
-      pdf.add(pdf.ln(1));
-      pdf.add(new Txt('ALANINO AMINO TRANSFERASA').alignment('center').italics().fontSize(18).end)
-      pdf.add(pdf.ln(1));
-      pdf.add(new Table([
-        ['Hematología', 'Valor', 'Valor de Referencia', 'Fecha de Registro']
-      ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(14).alignment('center').end
-      );
-      for (var i = 0; i < this.DatosALANINOY.length; i++) {
-        pdf.add(new Table([
-          ["ALAT-TGP", this.DatosALANINOY[i], "Hasta 40 UI/L", this.DatosALANINOX[i]]
-        ]).widths([120, 120, 120, 120]).layout("noBorders").fontSize(10).alignment('center').end
-        );
-      }
-      pdf.create().download("Reporte " + o.name + " " + o.apellido);
-    });
-
-  }
-  ActualizarReprotes() {
-    console.log("Codigo actualizar XD");
-    let date: Date = new Date("2019-01-16");
-    var Fecha1 = new Date(this.FechaInicio);
-    var Fecha2 = new Date(this.FechaFinal);
-    console.log("HEMATOLOGIAS a buscar BUSCANDO XD->" + Fecha1);
-    console.log("HEMATOLOGIAS a buscar BUSCANDO XD->" + Fecha2);
-    console.log("HEMATOLOGIAS a buscar BUSCANDO XD->" + this.FechaInicio);
-    console.log("HEMATOLOGIAS a buscar BUSCANDO XD->" + this.FechaFinal);
-    var Info = this.Almacenamiento.ObtenerInformacionLS("Usuario");
-    var o = JSON.parse(Info);
-    this.CodigoUsuarioH = o.user;
-    if (Fecha1 > Fecha2) {
-      this.Alamars.Mensaje_De_Error("Datos incorrectos", "La fecha final debe ser superior o igual a la fecha de inicio");
-
-    } else {
-      if (this.FechaInicio == "" || this.FechaFinal == "") {
-        this.Alamars.Mensaje_De_Error("Datos incorrectos", "Las fechas de busquedas deben tener un valor");
-
-      } else {
-        this.ActualizarHEMOGLOBINA(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-        this.ActualizarCREATININA(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-        this.ActualizarGLUCOSAPRE_PRANDRIAL(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-        this.ActualizarGLUCOSAPOST_PRANDRIAL(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-        this.ActualizarGLUCOSAPOST_PEST(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-        this.ActualizarGLUCOSA_TOTAL(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-        this.ActualizarCOLESTEROL_TOTAL(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-        this.ActualizarCOLESTEROL_HDL_LDL(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-        this.ActualizarTRIGLICERIDOS(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-        this.ActualizarLIPIDOS(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-        this.ActualizarASPARTATO(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-        this.ActualizarALANINO(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-        this.ColesterolesIndividuales(this.FechaInicio, this.FechaFinal, this.CodigoUsuarioH);
-      }
-
-    }
-
-  }
-  //Metodos individuales para cada gráfica
   ActualizarHEMOGLOBINA(fecha1: string, fecha2: string, usuario: number) {
     this.chartHEMOGLOBINA.destroy();
     this.DatosHEMOGLOBINAX = [];
@@ -1254,48 +1001,41 @@ export class ReportesComponent implements OnInit {
 
   }
 
-  ObtenerNombreHematologias() {
-    console.log("HEMATOLOGIAS");
-    this.TipoHemalogias = [];
+  //INICIO
+  ColesterolesIndividualesINICIO(usuario: number) {
+    this.DatosColesterolHXindividual = [];
+    this.DatosColesterolHYindividual = [];
+    this.DatosColesteroDLYindividual = [];
+    this.chartColesteroDLindividual = [];
 
-    this.Microservicio.ObtenerNombreHematologiasReportes().subscribe((resp: any) => {
-      console.log("resp->" + resp)
+    this.Microservicio.verHematologiasReportes2(usuario, 6).subscribe((resp: any) => {
+      console.log(resp.info);
+      console.log(resp.msg);
+      console.log(resp);
       if (resp.msg == true) {
-        const reversed = resp.info;
-        for (let MensajeRecibido of reversed) {
+        for (let MensajeRecibido of resp.info) {
+          var FechaNueva = MensajeRecibido.Fecha_Registro.substring(0, 10);
+          var ValorNuevo = MensajeRecibido.Cantidad;
+          this.DatosColesterolHXindividual.push(FechaNueva);
+          this.DatosColesterolHYindividual.push(ValorNuevo);
+        }
+      }
+    });
 
-          this.TipoHemalogias.push({
-            "Nombre": MensajeRecibido.Nombre
-          });
-
+    this.Microservicio.verHematologiasReportes2(usuario, 7).subscribe((resp: any) => {
+      console.log(resp.info);
+      console.log(resp.msg);
+      console.log(resp);
+      if (resp.msg == true) {
+        for (let MensajeRecibido of resp.info) {
+          var FechaNueva = MensajeRecibido.Fecha_Registro.substring(0, 10);
+          var ValorNuevo = MensajeRecibido.Cantidad;
+          this.chartColesteroDLindividual.push(FechaNueva);
+          this.DatosColesteroDLYindividual.push(ValorNuevo);
         }
       }
     });
   }
-  SesionOnn(): boolean {
-    var Info = this.Almacenamiento.ObtenerInformacionLS("Usuario");
-    console.log("hooooooooooolaXD");
-    console.log("-" + Info + "-")
-    var o = JSON.parse(Info);
-    console.log(o);
-    if (o != null) {
-      return true;
-    }
-
-    return false;
-  }
-  EsMedico(): boolean {
-    var Info = this.Almacenamiento.ObtenerInformacionLS("Tipo");
-
-    var o = JSON.parse(Info);
-    if (o.TipoUsuario == 'Medico') {
-      return true;
-    }
-    return false;
-  }
-
-
-  //Metodos individuales inicio
   ActualizarHEMOGLOBINAINICIO(usuario: number) {
     //this.chartHEMOGLOBINA.destroy();
     console.log("CREando grafica 1");
@@ -1854,251 +1594,6 @@ export class ReportesComponent implements OnInit {
     });
 
   }
-  VerReporteIndividualINICIO() {
 
 
-    this.FechasIndiviaduales = [];
-    this.ValoresIndivuales = [];
-    this.DatosMaximosIndividuales = [];
-    this.DatosMinimosIndividuales = [];
-    this.HematologiABuscarGENERAL = "GLUCOSA PRE-PRANDRIAL";
-    this.Microservicio.IdHematologaReporte(this.HematologiABuscarGENERAL).subscribe((resp: any) => {
-      if (resp.msg == true) {
-        var identificadorH = resp.info[0].Internal_ID_Hematologia;
-        var ValMaximo = resp.info[0].Minimo;
-        var ValMinimo = resp.info[0].Maximo;
-        var Info = this.Almacenamiento.ObtenerInformacionLS("Usuario");
-        var o = JSON.parse(Info);
-        this.CodigoUsuarioH = o.user;
-        var sexoU = o.Genero;
-        if (sexoU.toString() == "Masculino") {
-          if (this.HematologiABuscarGENERAL.toString() == "COLESTEROL HDL") {
-            ValMaximo = 35;
-            ValMinimo = 0;
-          } else if (this.HematologiABuscarGENERAL.toString() == "CREATININA") {
-            ValMaximo = 1.4;
-            ValMinimo = 0.9;
-          }
-        } else {
-          if (this.HematologiABuscarGENERAL.toString() == "COLESTEROL HDL") {
-            ValMaximo = 45;
-            ValMinimo = 0;
-          } else if (this.HematologiABuscarGENERAL.toString() == "CREATININA") {
-            ValMaximo = 1.2;
-            ValMinimo = 0.8;
-          }
-        }
-        this.Microservicio.verHematologiasReportes2(this.CodigoUsuarioH, identificadorH).subscribe((resp: any) => {
-          if (resp.msg == true) {
-            let titulo = this.HematologiABuscarGENERAL;
-            for (let MensajeRecibido of resp.info) {
-              var FechaNueva = MensajeRecibido.Fecha_Registro.substring(0, 10);
-              var ValorNuevo = MensajeRecibido.Cantidad;
-              this.FechasIndiviaduales.push(FechaNueva);
-              this.ValoresIndivuales.push(ValorNuevo);
-              this.DatosMaximosIndividuales.push(ValMaximo);
-              this.DatosMinimosIndividuales.push(ValMinimo);
-            }
-
-
-            if (this.DatosMinimosIndividuales[0] == 0) {
-              this.chart = new Chart('GraficaIndividual', {
-                type: 'bar',
-                data: {
-                  labels: this.FechasIndiviaduales,
-                  datasets: [
-                    {
-                      label: titulo,
-                      data: this.ValoresIndivuales,
-                      backgroundColor: [
-                        '#FDF63E'
-                      ],
-                      borderColor: [
-                        '#FDF63E'
-                      ],
-                      borderWidth: 1
-                    },
-                    {
-                      label: 'Valor Máximo',
-                      data: this.DatosMaximosIndividuales,
-                      backgroundColor: [
-                        '#27C3E4'
-                      ],
-                      borderColor: [
-                        '#27C3E4'
-                      ],
-                      borderWidth: 1
-                    }
-
-
-                  ]
-                },
-                options: {
-                  responsive: true,
-                  scales: {
-                    y: {
-                      beginAtZero: true
-                    }
-                  }
-                }
-              });
-            } else {
-              this.chart = new Chart('GraficaIndividual', {
-                type: 'bar',
-                data: {
-                  labels: this.FechasIndiviaduales,
-                  datasets: [
-                    {
-                      label: 'Valor Minimo',
-                      data: this.DatosMinimosIndividuales,
-                      backgroundColor: [
-                        '#F95D70'
-                      ],
-                      borderColor: [
-                        '#F95D70'
-                      ],
-                      borderWidth: 1
-                    },
-                    {
-                      label: titulo,
-                      data: this.ValoresIndivuales,
-                      backgroundColor: [
-                        '#FDF63E'
-                      ],
-                      borderColor: [
-                        '#FDF63E'
-                      ],
-                      borderWidth: 1
-                    },
-                    {
-                      label: 'Valor Máximo',
-                      data: this.DatosMaximosIndividuales,
-                      backgroundColor: [
-                        '#27C3E4'
-                      ],
-                      borderColor: [
-                        '#27C3E4'
-                      ],
-                      borderWidth: 1
-                    }
-
-
-                  ]
-                },
-                options: {
-                  responsive: true,
-                  scales: {
-                    y: {
-                      beginAtZero: true
-                    }
-                  }
-                }
-              });
-            }
-          } else {
-            let titulo = this.HematologiABuscarGENERAL;
-            if (this.DatosMinimosIndividuales[0] == 0) {
-              this.chart = new Chart('GraficaIndividual', {
-                type: 'bar',
-                data: {
-                  labels: this.FechasIndiviaduales,
-                  datasets: [
-                    {
-                      label: titulo,
-                      data: this.ValoresIndivuales,
-                      backgroundColor: [
-                        '#FDF63E'
-                      ],
-                      borderColor: [
-                        '#FDF63E'
-                      ],
-                      borderWidth: 1
-                    },
-                    {
-                      label: 'Valor Máximo',
-                      data: this.DatosMaximosIndividuales,
-                      backgroundColor: [
-                        '#27C3E4'
-                      ],
-                      borderColor: [
-                        '#27C3E4'
-                      ],
-                      borderWidth: 1
-                    }
-
-
-                  ]
-                },
-                options: {
-                  responsive: true,
-                  scales: {
-                    y: {
-                      beginAtZero: true
-                    }
-                  }
-                }
-              });
-            } else {
-              this.chart = new Chart('GraficaIndividual', {
-                type: 'bar',
-                data: {
-                  labels: this.FechasIndiviaduales,
-                  datasets: [
-                    {
-                      label: 'Valor Minimo',
-                      data: this.DatosMinimosIndividuales,
-                      backgroundColor: [
-                        '#F95D70'
-                      ],
-                      borderColor: [
-                        '#F95D70'
-                      ],
-                      borderWidth: 1
-                    },
-                    {
-                      label: titulo,
-                      data: this.ValoresIndivuales,
-                      backgroundColor: [
-                        '#FDF63E'
-                      ],
-                      borderColor: [
-                        '#FDF63E'
-                      ],
-                      borderWidth: 1
-                    },
-                    {
-                      label: 'Valor Máximo',
-                      data: this.DatosMaximosIndividuales,
-                      backgroundColor: [
-                        '#27C3E4'
-                      ],
-                      borderColor: [
-                        '#27C3E4'
-                      ],
-                      borderWidth: 1
-                    }
-
-
-                  ]
-                },
-                options: {
-                  responsive: true,
-                  scales: {
-                    y: {
-                      beginAtZero: true
-                    }
-                  }
-                }
-              });
-            }
-          }
-
-        });
-      }
-    });
-
-
-
-
-  }
 }

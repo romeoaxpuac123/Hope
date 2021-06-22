@@ -27,7 +27,8 @@ import { ValidarCuentaComponent } from './components/validar-cuenta/validar-cuen
 // Import pdfmake-wrapper and the fonts to use
 import { PdfMakeWrapper } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
-import { PacientesComponent } from './components/pacientes/pacientes.component'; // fonts provided for pdfmake
+import { PacientesComponent } from './components/pacientes/pacientes.component';
+import { ReportePacienteComponent } from './components/reporte-paciente/reporte-paciente.component'; // fonts provided for pdfmake
 
 // Set the fonts to use
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -51,7 +52,8 @@ PdfMakeWrapper.setFonts(pdfFonts);
     FichaComponent,
     ReportesComponent,
     ValidarCuentaComponent,
-    PacientesComponent
+    PacientesComponent,
+    ReportePacienteComponent
   ],
   imports: [
     BrowserModule,
