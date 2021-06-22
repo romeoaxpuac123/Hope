@@ -1,0 +1,40 @@
+<app-menu>
+
+</app-menu>
+
+
+<body class="Cuerpo1" id="cuerpo" style="margin-left:50px; background-color:#212121;">
+    <app-encabezado2 id="Cabeza"></app-encabezado2>
+    <br><br><br><br>
+    <h1 class="text-center" style="color: white; background-color: transparent;">Agregar Paciente</h1>
+    <div class="Buscar">
+        <input [(ngModel)]="correo" type="email" list="itemsMedicina" placeholder="correo@ejemplo.com" />
+        <br>
+        <button (click)="agregar()" id="boton_personalizado">Agregar</button>
+        <br>
+    </div>
+
+    <h1 class="text-center" style="color: white; background-color: transparent;">Mis Pacientes</h1>
+
+    <div style="background-color: transparent;" class="pricing-box-container" *ngFor="let item of lista">
+        <div id="Cuadro" class="pricing-box text-center">
+            <h1>{{item.Nombre}}</h1>
+            <h6>{{item.Correo}}</h6>
+            <img id="imagen1" src={{item.Foto}}>
+            <ul class="features-list">
+                <li><strong>HEMOGLOBINA</strong><br>{{item.HEMOGLOBINA}}</li>
+                <li><strong>GLUCOSA PRE-PRANDRIAL</strong><br> {{item.PRE_PRANDRIAL}}</li>
+                <li><strong>GLUCOSA POST-PRANDRIAL</strong><br> {{item.POST_PRANDRIAL}}</li>
+                <li><strong>CREATININA</strong><br> {{item.CREATININA}}</li>
+                <li><strong>TRIGLICÉRIDOS</strong><br> {{item.TRIGLICERIDOS}}</li>
+            </ul>
+
+        </div>
+    </div>
+
+
+
+
+    <br><br><br><br><br>
+    <app-copyright></app-copyright>
+</body>

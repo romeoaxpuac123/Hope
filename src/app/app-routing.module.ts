@@ -10,7 +10,7 @@ import {HematologiaComponent} from './components/hematologia/hematologia.compone
 import {FichaComponent} from './components/ficha/ficha.component';
 import {ReportesComponent} from './components/reportes/reportes.component';
 import {ValidarCuentaComponent} from './components/validar-cuenta/validar-cuenta.component';
-
+import {PacientesComponent} from './components/pacientes/pacientes.component';
 const routes: Routes = [
   {
     path:'',
@@ -55,6 +55,10 @@ const routes: Routes = [
   {
     path:'Cuenta/:info',
     component: ValidarCuentaComponent
+  },
+  {
+    path:'Pacientes',
+    component: PacientesComponent 
   },
 ];
 

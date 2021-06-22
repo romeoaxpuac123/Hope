@@ -9,6 +9,7 @@ import {tap} from 'rxjs/operators';
 export class MicroserviciosService {
   private _refresh$ = new Subject<void>();
   private _refresh2$ = new Subject<void>();
+  private _refresh3$ = new Subject<void>();
   constructor(
     private _http:HttpClient, 
   ){ 
@@ -19,6 +20,9 @@ export class MicroserviciosService {
   }
   get refresh2$(){
     return this._refresh2$;
+  }
+  get refresh3$(){
+    return this._refresh3$;
   }
   SesionCliente(correo:string,password:string){
     
@@ -365,5 +369,41 @@ export class MicroserviciosService {
     })
   }
  
-
+  //MICROSERVICIO MEDICOS
+  ObtenerPacientes(External_ID_Medico:number){
+    let urlAPI = 'http://localhost:7003/MisPacientes';
+    return this._http.post(urlAPI,{
+      "External_ID_Medico": External_ID_Medico
+    })
+  }
+  DatosPaciente(External_ID_Cliente:number){
+    let urlAPI = 'http://localhost:7003/DatosPaciente';
+    return this._http.post(urlAPI,{
+      "External_ID_Cliente": External_ID_Cliente
+    })
+  }
+  Relacion(External_ID_Medico:number,Email:string){
+    let urlAPI = 'http://localhost:7003/Relacion';
+    return this._http.post(urlAPI,{
+      "External_ID_Medico": External_ID_Medico,
+      "Email":Email
+    })
+  }
+  CodigoPaciente(Email:string){
+    let urlAPI = 'http://localhost:7003/CodigoPaciente';
+    return this._http.post(urlAPI,{
+      "Email":Email
+    })
+  }
+  Asignacion(External_ID_Cliente:number,External_ID_Medico:number):Observable<any>{
+    let urlAPI = 'http://localhost:7003/Asignacion';
+    return this._http.post(urlAPI,{
+      "External_ID_Cliente":External_ID_Cliente,
+      "External_ID_Medico": External_ID_Medico
+    }).pipe(
+      tap(()=>{
+        this._refresh3$.next();
+      })
+    )
+  }
 }

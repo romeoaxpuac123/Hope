@@ -26,7 +26,8 @@ import {MicroserviciosService} from './services/microservicios.service';
 import { ValidarCuentaComponent } from './components/validar-cuenta/validar-cuenta.component';
 // Import pdfmake-wrapper and the fonts to use
 import { PdfMakeWrapper } from 'pdfmake-wrapper';
-import * as pdfFonts from "pdfmake/build/vfs_fonts"; // fonts provided for pdfmake
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
+import { PacientesComponent } from './components/pacientes/pacientes.component'; // fonts provided for pdfmake
 
 // Set the fonts to use
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -49,7 +50,8 @@ PdfMakeWrapper.setFonts(pdfFonts);
     HematologiaComponent,
     FichaComponent,
     ReportesComponent,
-    ValidarCuentaComponent
+    ValidarCuentaComponent,
+    PacientesComponent
   ],
   imports: [
     BrowserModule,
