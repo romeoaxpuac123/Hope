@@ -406,4 +406,29 @@ export class MicroserviciosService {
       })
     )
   }
+  Menu(){
+    let urlAPI = 'http://localhost:4003/Menu';
+    return this._http.post(urlAPI,{
+      "nombre" : "HopeDiabeticBD"
+    })
+  }
+  UltimosRegistrosRecomendaciones(External_ID_Cliente:number){
+    let urlAPI = 'http://localhost:4003/UltimosRegistros';
+    return this._http.post(urlAPI,{
+      "External_ID_Cliente" : External_ID_Cliente
+    })
+  }
+  MenuRecomendacion(Calorias:number,Grasa:number,Colesterol:number,Carbohidratos:number,Azucares:number,Tipo:string){
+    let urlAPI = 'http://localhost:4003/MenuRecomendacion';
+    return this._http.post(urlAPI,{
+      "Calorias" : Calorias,
+      "Grasa":Grasa,
+      "Colesterol":Colesterol,
+      "Carbohidratos":Carbohidratos,
+      "Azucares" : Azucares,
+      "Tipo": Tipo
+    })
+  }
+
+
 }

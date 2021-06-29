@@ -1,0 +1,115 @@
+<app-menu>
+
+</app-menu>
+
+
+<body class="Cuerpo1" id="cuerpo" style="margin-left:50px; background-color:#212121;">
+    <app-encabezado2 id="Cabeza"></app-encabezado2>
+    <br><br><br><br>
+
+    <h1 style="color:white; text-align: center;">Recomendaciones</h1>
+    <br><br>
+    <div class="Recomendacion">
+        <div id="SubMenu">
+            <h2>Seleccione el tipo de alimento que desea buscar</h2>
+            <select [(ngModel)]="TipoAlimento" name="TipoAli" id="TipoAli">
+                <option>Desayuno</option>                            
+                <option>Almuerzo</option>
+                <option>Postre</option>
+                <option>Bebida</option>                            
+            </select>
+            <br><br>
+
+            <button (click)="Recomendar()" id="boton_personalizado">Recomendar</button>
+        </div>
+        <br>
+
+        <p style="color: white; text-align: center;">{{ParrafoComida}}</p>
+        <div class="items">
+            <div class="itemMenu">
+                <li style="list-style-type: none; " *ngFor="let texto of arregloMenu">
+                    <div class="info" id="Info1">
+                        <div id="texto">
+                            <br>
+                            <h3 id="titulo">{{texto["titulo"]}}</h3>
+                            <img id="img1" src={{texto.texto}} />
+                        </div>
+                        <div id="botoninfo">
+                            <br>
+                            <button (click)="Informacion(texto.titulo,texto.Ingredientes,texto.Paso1,texto.Paso2,texto.Paso3,texto.Paso4,texto.texto,texto.Calorias,texto.Grasa,texto.Carbohidratos,texto.Azucares,texto.Protehina,texto.Colesterol)" id="boton_personalizado">Ver</button>
+
+                        </div>
+
+                    </div>
+                </li>
+            </div>
+        </div>
+        <div class="receta">
+            <h1 id="TituloReceta">{{Nombre}}</h1>
+            <div id="InformacionReceta">
+                <h2 id="titulo2">{{subtitulo}}</h2>
+                <li *ngFor="let Ing of Ingredientes">
+                    {{Ing}}
+                </li>
+                <h2 id="titulo2">{{subtitulo2}}</h2>
+                <li style="list-style-type: none;">{{Paso1}}</li>
+                <br>
+                <li style="list-style-type: none;">{{Paso2}}</li>
+                <br>
+                <li style="list-style-type: none;">{{Paso3}}</li>
+                <br>
+                <li style="list-style-type: none;">{{Paso4}}</li>
+                <br>
+                <div *ngIf="ver==true" id="Ver">
+                    <h2 id="titulo2">{{subtitulo3}}</h2>
+                    <table id="Tabla1">
+                        <tr>
+                            <td><strong>item</strong></td>
+                            <td><strong>Valor</strong></td>
+                        </tr>
+
+                        <tr>
+                            <td>Calorias</td>
+                            <td>{{Calorias}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Grasa total (g)</td>
+                            <td>{{Grasa}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Colesterol (g)</td>
+                            <td>{{Colesterol}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Carbohidratos (g)</td>
+                            <td>{{Carbohidratos}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Azucares totales (g)</td>
+                            <td>{{Azucares}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Proteina (g)</td>
+                            <td>{{Proteina}}</td>
+                        </tr>
+                    </table>
+                    <br><br>
+                    <img id="img1" src={{imagenComida}} />
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <br><br><br>
+    <app-copyright></app-copyright>
+</body>

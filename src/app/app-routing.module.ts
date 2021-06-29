@@ -12,6 +12,7 @@ import {ReportesComponent} from './components/reportes/reportes.component';
 import {ValidarCuentaComponent} from './components/validar-cuenta/validar-cuenta.component';
 import {PacientesComponent} from './components/pacientes/pacientes.component';
 import {ReportePacienteComponent} from './components/reporte-paciente/reporte-paciente.component';
+import {RecomendacionesComponent} from './components/recomendaciones/recomendaciones.component';
 const routes: Routes = [
   {
     path:'',
@@ -64,6 +65,10 @@ const routes: Routes = [
   { 
     path:'ReportePaciente',
     component: ReportePacienteComponent
+  },
+  { 
+    path:'Recomendaciones',
+    component: RecomendacionesComponent
   },
 ];
 

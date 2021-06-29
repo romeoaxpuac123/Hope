@@ -1,0 +1,114 @@
+.items {
+    background-color: transparent;
+    height: 350px;
+    float: left;
+    width: 50%;
+    overflow-y: scroll;
+}
+
+.receta {
+    background-color: transparent;
+    height: 350px;
+    overflow-y: scroll;
+    color: white
+}
+
+.info {
+    background: rgb(2, 0, 36);
+    background: radial-gradient(circle, rgba(2, 0, 36, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(172, 199, 237, 1) 62%);
+    overflow: hidden;
+    width: 60%;
+    height: 100%;
+    margin-left: 20%;
+    border-radius: 15px;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    box-shadow: 3px 3px 6px #999;
+    margin-top: 3%;
+}
+
+.info #titulo {
+    text-align: center;
+    margin-top: 3%;
+    color: black;
+    font-size: 150%;
+    font-family: fantasy;
+}
+
+.info #Mostrar {
+    margin-left: 15%;
+    margin-right: 15%;
+    color: black;
+    font-size: 80%;
+}
+
+.info #botoninfo {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 3%;
+}
+
+#botoninfo {
+    text-align: center;
+}
+
+.info #Descripcion {
+    float: left;
+}
+
+#boton_personalizado {
+    text-decoration: none;
+    padding: 10px;
+    font-weight: 100;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: #67686d;
+    border-radius: 6px;
+    border: 2px solid #67686d;
+}
+
+#boton_personalizado:hover {
+    color: #1883ba;
+    background-color: #ffffff;
+}
+
+#img1 {
+    width: 90%;
+    height: 90%;
+    text-align: center;
+    margin-left: 5%;
+}
+
+#TituloReceta {
+    text-align: center;
+}
+
+#InformacionReceta {
+    margin-left: 5%;
+}
+
+#SubMenu {
+    text-align: center;
+}
+
+#TipoAli {
+    height: 30px;
+    width: 20%;
+}
+
+@media all and (max-width: 600px) {
+    .info #titulo {
+        text-align: center;
+        margin-top: 3%;
+        color: black;
+        font-size: 100%;
+        font-family: fantasy;
+    }
+    #titulo2 {
+        text-align: center;
+        margin-top: 3%;
+        color: black;
+        font-size: 100%;
+        font-family: fantasy;
+    }
+}
