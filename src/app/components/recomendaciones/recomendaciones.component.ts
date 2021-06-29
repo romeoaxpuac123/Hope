@@ -185,25 +185,152 @@ export class RecomendacionesComponent implements OnInit {
           console.log(ValorAzucares);
           console.log("fin");
           this.Microservicio.MenuRecomendacion(ValorCalorias,ValorGrasa,ValorColesterol,ValorCarbohidratos,ValorAzucares,this.TipoAlimento).subscribe((resp2: any) => {
-            if (resp2.msg == true) {   
-              for (let MensajeRecibido of resp2.info) {
-                this.arregloMenu.push( {
-                  "titulo": MensajeRecibido.Alimento,
-                  "Calorias": MensajeRecibido.Calorias,
-                  "Grasa": MensajeRecibido.Grasa,
-                  "Carbohidratos": MensajeRecibido.Carbohidratos,
-                  "Azucares": MensajeRecibido.Azucares,
-                  "Protehina": MensajeRecibido.Proteina,
-                  "Colesterol": MensajeRecibido.Colesterol,
-                  "Paso1": MensajeRecibido.Paso1,
-                  "Paso2": MensajeRecibido.Paso2,
-                  "Paso3": MensajeRecibido.Paso3,
-                  "Paso4": MensajeRecibido.Paso4,
-                  "Ingredientes":MensajeRecibido.Ingredientes,
-                  "texto":MensajeRecibido.Imagen ,
-                  "tipo:":MensajeRecibido.Tipo
-                });
-              }
+            if (resp2.msg == true) {
+              this.Microservicio.MenuIntolerancias(CodigoUsuarioH).subscribe((resp3: any) => {
+                
+                var Alergia1 = "Romeo";
+                var Alergia2 = "Romeo";
+                var Alergia3 = "Romeo";
+                var Alergia4 = "Romeo";
+                var Alergia5 = "Romeo";
+                var Alergia6 = "Romeo";
+                var Alergia7 = "Romeo";
+                var Alergia8 = "Romeo";
+                var Alergia9 = "Romeo";
+                var Alergia10 = "Romeo";
+                var Alergia11 = "Romeo";
+                var Alergia12 = "Romeo";
+                if(resp3.msg == true){
+                  console.log("SNK-1-" + resp3.info[0].Intolerancia1+"-")
+                  console.log("SNK-1-" + resp3.info[0].Intolerancia2+"-")
+                  console.log("SNK-1-" + resp3.info[0].Intolerancia3+"-")
+                  if(resp3.info[0].Intolerancia1 != null && resp3.info[0].Intolerancia1 != "" && resp3.info[0].Intolerancia1.length >= 0){
+                    Alergia1 = resp3.info[0].Intolerancia1.toUpperCase();
+                  }
+                  if(resp3.info[0].Intolerancia2 != null && resp3.info[0].Intolerancia2 != "" && resp3.info[0].Intolerancia2.length >= 0){
+                    Alergia2 = resp3.info[0].Intolerancia2.toUpperCase();
+                  }
+                  if(resp3.info[0].Intolerancia3 != null && resp3.info[0].Intolerancia3 != "" && resp3.info[0].Intolerancia3.length >= 0){
+                    Alergia3 = resp3.info[0].Intolerancia3.toUpperCase();
+                  }                                
+                }
+                switch(Alergia1){
+                  case "LACTOSA":
+                    Alergia1 = "LECHE";
+                    Alergia4 = "YOGUR";
+                    Alergia10 = "QUESO";
+                    break;
+                  case "GLUTEN":
+                    Alergia1 = "TORTILLA";
+                    Alergia4 = "PAN";
+                    break;
+                  case "HISTAMINA":
+                    Alergia1 = "FRESA";
+                    Alergia4 = "HUEVO";
+                    Alergia5 = "FRUTA";
+                }
+                switch(Alergia2){
+                  case "LACTOSA":
+                    Alergia2 = "LECHE";
+                    Alergia6 = "YOGUR";
+                    Alergia11 = "QUESO";
+                    break;
+                  case "GLUTEN":
+                    Alergia2 = "TORTILLA";
+                    Alergia6 = "PAN";
+                    break;
+                  case "HISTAMINA":
+                    Alergia2 = "FRESA";
+                    Alergia6 = "HUEVO";
+                    Alergia7 = "FRUTA";
+                }
+                switch(Alergia3){
+                  case "LACTOSA":
+                    Alergia3 = "LECHE";
+                    Alergia8 = "YOGUR";
+                    Alergia12 = "QUESO";
+                    break;
+                  case "GLUTEN":
+                    Alergia3 = "TORTILLA";
+                    Alergia8 = "PAN";
+                    break;
+                  case "HISTAMINA":
+                    Alergia3 = "FRESA";
+                    Alergia8 = "HUEVO";
+                    Alergia9 = "FRUTA";
+                }
+                console.log("ALERGIA -" + Alergia1+"-");
+                console.log("ALERGIA -" + Alergia2+"-");
+                console.log("ALERGIA -" + Alergia3+"-");
+                console.log("ALERGIA -" + Alergia4+"-");
+                console.log("ALERGIA -" + Alergia5+"-");
+                console.log("ALERGIA -" + Alergia6+"-");
+                console.log("ALERGIA -" + Alergia7+"-");
+                console.log("ALERGIA -" + Alergia8+"-");
+                console.log("ALERGIA -" + Alergia9+"-");
+                console.log("ALERGIA -" + Alergia10+"-");
+                console.log("ALERGIA -" + Alergia11+"-");
+                console.log("ALERGIA -" + Alergia12+"-");
+                
+                for (let MensajeRecibido of resp2.info) {
+                  var Existe1  = MensajeRecibido.Alimento.toUpperCase().indexOf(Alergia1);
+                  var Existe2  = MensajeRecibido.Alimento.toUpperCase().indexOf(Alergia2);
+                  var Existe3  = MensajeRecibido.Alimento.toUpperCase().indexOf(Alergia3);
+                  var Existe4  = MensajeRecibido.Alimento.toUpperCase().indexOf(Alergia4);
+                  var Existe5  = MensajeRecibido.Alimento.toUpperCase().indexOf(Alergia5);
+                  var Existe6  = MensajeRecibido.Alimento.toUpperCase().indexOf(Alergia6);
+                  var Existe7  = MensajeRecibido.Alimento.toUpperCase().indexOf(Alergia7);
+                  var Existe8  = MensajeRecibido.Alimento.toUpperCase().indexOf(Alergia8);
+                  var Existe9  = MensajeRecibido.Alimento.toUpperCase().indexOf(Alergia9);
+                  var Existe24  = MensajeRecibido.Alimento.toUpperCase().indexOf(Alergia10);
+                  var Existe25  = MensajeRecibido.Alimento.toUpperCase().indexOf(Alergia11);
+                  var Existe26  = MensajeRecibido.Alimento.toUpperCase().indexOf(Alergia12);
+                  var Existe11  = MensajeRecibido.Ingredientes.toUpperCase().indexOf(Alergia1);
+                  var Existe12  = MensajeRecibido.Ingredientes.toUpperCase().indexOf(Alergia2);
+                  var Existe13  = MensajeRecibido.Ingredientes.toUpperCase().indexOf(Alergia3);
+                  var Existe14  = MensajeRecibido.Ingredientes.toUpperCase().indexOf(Alergia4);
+                  var Existe15  = MensajeRecibido.Ingredientes.toUpperCase().indexOf(Alergia5);
+                  var Existe16  = MensajeRecibido.Ingredientes.toUpperCase().indexOf(Alergia6);
+                  var Existe17  = MensajeRecibido.Ingredientes.toUpperCase().indexOf(Alergia7);
+                  var Existe18  = MensajeRecibido.Ingredientes.toUpperCase().indexOf(Alergia8);
+                  var Existe19  = MensajeRecibido.Ingredientes.toUpperCase().indexOf(Alergia9);
+                  var Existe21  = MensajeRecibido.Ingredientes.toUpperCase().indexOf(Alergia10);
+                  var Existe22  = MensajeRecibido.Ingredientes.toUpperCase().indexOf(Alergia11);
+                  var Existe23  = MensajeRecibido.Ingredientes.toUpperCase().indexOf(Alergia12);
+                  
+                  if(Existe1>= 0 || Existe2>= 0 || Existe3>= 0 || Existe4>= 0
+                  || Existe5>= 0 || Existe6>= 0 || Existe7>= 0 || Existe8>= 0
+                  || Existe9>= 0 || Existe11>= 0 || Existe12>= 0 || Existe13>= 0
+                  || Existe14>= 0 || Existe15>= 0 || Existe16>= 0 || Existe17>= 0
+                  || Existe18>= 0 || Existe19>= 0 || Existe21>= 0 || Existe22>= 0
+                  || Existe23>= 0 || Existe24>= 0 || Existe25>= 0 || Existe26>= 0){
+                    console.log("NO se agrega");
+                  }else{
+                    this.arregloMenu.push( {
+                      "titulo": MensajeRecibido.Alimento,
+                      "Calorias": MensajeRecibido.Calorias,
+                      "Grasa": MensajeRecibido.Grasa,
+                      "Carbohidratos": MensajeRecibido.Carbohidratos,
+                      "Azucares": MensajeRecibido.Azucares,
+                      "Protehina": MensajeRecibido.Proteina,
+                      "Colesterol": MensajeRecibido.Colesterol,
+                      "Paso1": MensajeRecibido.Paso1,
+                      "Paso2": MensajeRecibido.Paso2,
+                      "Paso3": MensajeRecibido.Paso3,
+                      "Paso4": MensajeRecibido.Paso4,
+                      "Ingredientes":MensajeRecibido.Ingredientes,
+                      "texto":MensajeRecibido.Imagen ,
+                      "tipo:":MensajeRecibido.Tipo
+                    });
+                  }
+                  
+                }
+                if(this.arregloMenu.length == 0){
+                  this.Alamars.Mensaje_De_Error("NO SE ENCONTRO RECOMENDACION","Debido a tus intolerancias, no te podemos recomendar un alimetno en especifico. Pero puedes visualizar todas neustras opciones");
+                  this.MenuCompleto();
+                }
+              });   
+              
             }else{
               this.Alamars.Mensaje_De_Error("Advertencia","No tienes ninguna hematologia registrada");
               this.MenuCompleto();

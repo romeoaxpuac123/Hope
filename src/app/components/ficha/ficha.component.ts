@@ -145,6 +145,39 @@ export class FichaComponent implements OnInit {
   ActualizarFicha(){
     console.log("ESTAturaFICHA->" + this.External_ID_Ficha);
     console.log("ESTAturaCLIENTE->" + this.External_ID_Cliente);
+    if(this.Medicamente1 == null){
+      this.Medicamente1 = "";
+    }
+    if(this.Medicamente2 == null){
+      this.Medicamente2 = "";
+    }
+    if(this.Medicamente3 == null){
+      this.Medicamente3 = "";
+    }
+    if(this.Medicamente4 == null){
+      this.Medicamente4 = "";
+    }
+    if(this.Medicamente5 == null){
+      this.Medicamente5 = "";
+    }
+    if(this.Enfermedad1 == null){
+      this.Enfermedad1 = "";
+    }
+    if(this.Enfermedad2 == null){
+      this.Enfermedad2 = "";
+    }
+    if(this.Enfermedad3 == null){
+      this.Enfermedad3 = "";
+    }
+    if(this.Intolerancia1 == null){
+      this.Intolerancia1 = "";
+    }
+    if(this.Intolerancia2 == null){
+      this.Intolerancia2 = "";
+    }
+    if(this.Intolerancia3 == null){
+      this.Intolerancia3 = "";
+    }
     if(this.IgualMedicamento(this.Medicamente1,this.Medicamente2,this.Medicamente3,this.Medicamente4,this.Medicamente5)==false){
       if(this.IgualEnfermedad(this.Enfermedad1,this.Enfermedad2,this.Enfermedad3)==false){
         if(this.IgualAlergia(this.Intolerancia1,this.Intolerancia2,this.Intolerancia3)==false){

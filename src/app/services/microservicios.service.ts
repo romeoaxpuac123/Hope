@@ -429,6 +429,12 @@ export class MicroserviciosService {
       "Tipo": Tipo
     })
   }
+  MenuIntolerancias(External_ID_Cliente:number){
+    let urlAPI = 'http://localhost:4003/Intolerancias';
+    return this._http.post(urlAPI,{
+      "External_ID_Cliente" : External_ID_Cliente
+    });
+  }
 
 
 }
