@@ -3,6 +3,7 @@ import { MicroserviciosService } from '../../services/microservicios.service';
 import { LocalService } from '../../services/local.service';
 import { Router } from '@angular/router';
 import { AlertasComponent } from '../alertas/alertas.component';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-recomendaciones',
   templateUrl: './recomendaciones.component.html',
@@ -11,6 +12,7 @@ import { AlertasComponent } from '../alertas/alertas.component';
 export class RecomendacionesComponent implements OnInit {
   public Alamars: AlertasComponent = new AlertasComponent;
   public arregloMenu: any = [];
+  public arregloRutina:any = [];
   public Nombre: string = "";
   public Calorias: number = 0;
   public Grasa: number = 0;
@@ -33,6 +35,13 @@ export class RecomendacionesComponent implements OnInit {
   public EsMedicoA: boolean = false;
   public ParrafoComida:string = "";
   public TipoAlimento:string = "";
+  public VerComida = false;
+  public VerEjercicio = false;
+  public ParrafoEjercicio:string = "";
+  public DescripcionEjercicio = "";
+  public Duracion = "";
+  public Series = "";
+  public Repeticiones = "";
   constructor(
     private Microservicio: MicroserviciosService,
     private Almacenamiento: LocalService,
@@ -54,8 +63,51 @@ export class RecomendacionesComponent implements OnInit {
         this.navegacion.navigate(['']);
       } else {
          this.MenuCompleto();
+         this.RutinaCompleta();
       }
     }
+  }
+  VerAlimentacion(){
+    this.VerComida = true;
+    this.VerEjercicio = false;
+    this.ParrafoEjercicio = "";
+    this.DescripcionEjercicio = "";
+    this.Duracion = "";
+    this.Series = "";
+    this.Repeticiones = "";
+    this.ver = false;
+    this.ParrafoComida = "";
+    this.subtitulo = "";
+    this.subtitulo2 = "";
+    this.subtitulo3 = "";
+    this.Nombre = "";
+    this.imagenComida = "";
+    this.Paso1 = "";
+    this.Paso2 = "";
+    this.Paso3 = "";
+    this.Paso4 = "";
+    this.Ingredientes = [];
+  }
+  VerRutinas(){
+    this.VerComida = false;
+    this.VerEjercicio = true;
+    this.ParrafoEjercicio = "";
+    this.DescripcionEjercicio = "";
+    this.Duracion = "";
+    this.Series = "";
+    this.Repeticiones = "";
+    this.ver = false;
+    this.ParrafoComida = "";
+    this.subtitulo = "";
+    this.subtitulo2 = "";
+    this.subtitulo3 = "";
+    this.Nombre = "";
+    this.imagenComida = "";
+    this.Paso1 = "";
+    this.Paso2 = "";
+    this.Paso3 = "";
+    this.Paso4 = "";
+    this.Ingredientes = [];
   }
   Informacion(Titulo: string,Elementos:string, Paso1:string, Paso2:string,Paso3:string,Paso4:string,
     Imagen:string,cal:number,grasa:number,car:number,azu:number,pro:number,cole:number): void {
@@ -77,7 +129,11 @@ export class RecomendacionesComponent implements OnInit {
     this.Proteina = pro;
     this.Colesterol = cole;
   }
+  
   MenuCompleto(){
+    this.subtitulo = "";
+    this.subtitulo2 = "";
+    this.subtitulo3 = "";
     this.ParrafoComida = "Se muestran todos los alimentos,sin analizar Hematologias y Ficha medica. La foto de la receta puede incluir alimentos e ingredientes que no forman parte de esta receta y no están incluidos en el análisis nutricional."
     this.arregloMenu = [];
     this.Microservicio.Menu().subscribe((resp: any) => {
@@ -102,6 +158,41 @@ export class RecomendacionesComponent implements OnInit {
         }
       }
     });
+  }
+  RutinaCompleta(){
+    this.subtitulo = "";
+    this.subtitulo2 = "";
+    this.subtitulo3 = "";
+    this.ParrafoEjercicio = "Se muestran todas las rutinas de ejercicios que se encuentran en nuestro sistema, cada una indicando el nivel de dificultad que posee";
+    this.arregloRutina = [];
+    this.Microservicio.Rutinas().subscribe((resp: any) => {
+      if (resp.msg == true) { 
+        for (let MensajeRecibido of resp.info) {
+          this.arregloRutina.push( {
+            "Nombre": MensajeRecibido.Nombre,
+            "Duracion": MensajeRecibido.Duracion,
+            "Series": MensajeRecibido.Series,
+            "Repeticiones": MensajeRecibido.Repeticiones,
+            "Imagen": MensajeRecibido.Imagen,
+            "Nivel": MensajeRecibido.Nivel,
+            "Descripcion": MensajeRecibido.Descripcion
+          });
+        }
+      }
+    });
+  }
+  InformacionEjercicio(NombreEjercicio:string,Nivel:string,Descripcion:string,
+    DuracionE:string,SeriesE:string,RepeticionesE:string,ImagenEjercicio:string): void {
+    this.ver = true;
+    this.Nombre = NombreEjercicio;
+    this.subtitulo = "NIVEL " + Nivel;
+    this.subtitulo2 = "DESCRIPCION";
+    this.DescripcionEjercicio = Descripcion;
+    this.subtitulo3 = "INFORMACION";
+    this.Duracion = DuracionE;
+    this.Series = SeriesE;
+    this.Repeticiones = RepeticionesE;
+    this.imagenComida = ImagenEjercicio;
   }
   SesionOnn(): boolean {
     var Info = this.Almacenamiento.ObtenerInformacionLS("Usuario");

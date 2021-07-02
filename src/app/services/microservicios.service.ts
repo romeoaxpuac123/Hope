@@ -435,6 +435,24 @@ export class MicroserviciosService {
       "External_ID_Cliente" : External_ID_Cliente
     });
   }
+  Rutinas(){
+    let urlAPI = 'http://localhost:4003/Rutinas';
+    return this._http.post(urlAPI,{
+      "Nombre" : "HopeDiabetic"
+    });
+  }
+  RutinasNivel(Nivel:string){
+    let urlAPI = 'http://localhost:4003/RutinasNivel';
+    return this._http.post(urlAPI,{
+      "Nivel" : Nivel
+    });
+  }
+  FichaRutina(External_ID_Cliente:number){
+    let urlAPI = 'http://localhost:4003/FichaRecomendacion';
+    return this._http.post(urlAPI,{
+      "External_ID_Cliente" : External_ID_Cliente
+    });
+  }
 
 
 }

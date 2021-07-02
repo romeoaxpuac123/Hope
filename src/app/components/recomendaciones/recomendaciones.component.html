@@ -8,8 +8,13 @@
     <br><br><br><br>
 
     <h1 style="color:white; text-align: center;">Recomendaciones</h1>
+    <div id="BotonesD">
+        <button (click)="VerAlimentacion()" id="boton_personalizado">Ver Alimentos</button>
+        <button (click)="VerRutinas()" id="boton_personalizado">Ver Ejercicios</button>
+
+    </div>
     <br><br>
-    <div class="Recomendacion">
+    <div class="Recomendacion" *ngIf="VerComida==true">
         <div id="SubMenu">
             <h2>Seleccione el tipo de alimento que desea buscar</h2>
             <select [(ngModel)]="TipoAlimento" name="TipoAli" id="TipoAli">
@@ -106,6 +111,79 @@
 
 
         </div>
+    </div>
+    <div class="Recomendacion2" *ngIf="VerEjercicio ==true">
+        <div id="SubMenu">
+            <h2>Para ver una rutina expecifica para ti, da clic en ver.</h2>
+
+            <br><br>
+
+            <button id="boton_personalizado">Ver Rutina</button>
+        </div>
+        <br>
+
+        <p style="color: white; text-align: center;">{{ParrafoEjercicio}}</p>
+        <div class="items">
+            <div class="itemMenu">
+                <li style="list-style-type: none; " *ngFor="let texto of arregloRutina">
+                    <div class="info" id="Info1">
+                        <div id="texto">
+                            <br>
+                            <h3 id="titulo">{{texto["Nombre"]}}</h3>
+                            <h4 id="Nivel">Nivel: {{texto.Nivel}}</h4>
+                            <img id="img1" src={{texto.Imagen}} />
+                        </div>
+                        <div id="botoninfo">
+                            <br>
+                            <button (click)="InformacionEjercicio(texto.Nombre,texto.Nivel,texto.Descripcion,texto.Duracion,texto.Series,texto.Repeticiones,texto.Imagen);" id="boton_personalizado">Ver Rutina</button>
+
+                        </div>
+
+                    </div>
+                </li>
+            </div>
+        </div>
+
+        <div class="receta">
+            <h1 id="TituloReceta">{{Nombre}}</h1>
+            <div id="InformacionReceta">
+                <h2 id="titulo2">{{subtitulo}}</h2>
+                <h2 id="titulo2">{{subtitulo2}}</h2>
+                <p>{{DescripcionEjercicio}}</p>
+
+                <br>
+                <div *ngIf="ver==true" id="Ver">
+                    <h2 id="titulo2">{{subtitulo3}}</h2>
+                    <table id="Tabla1">
+                        <tr>
+                            <td><strong>Informacion</strong></td>
+                            <td><strong>Valor</strong></td>
+                        </tr>
+
+                        <tr>
+                            <td>Duracion</td>
+                            <td>{{Duracion}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Series</td>
+                            <td>{{Series}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Repeticiones</td>
+                            <td>{{Repeticiones}}</td>
+                        </tr>
+                    </table>
+                    <br><br>
+                    <img id="img1" src={{imagenComida}} />
+                </div>
+
+            </div>
+
+
+        </div>
+
     </div>
 
 

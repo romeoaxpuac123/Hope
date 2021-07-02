@@ -35,6 +35,10 @@
     font-family: fantasy;
 }
 
+.info #Nivel {
+    text-align: center;
+}
+
 .info #Mostrar {
     margin-left: 15%;
     margin-right: 15%;
@@ -70,6 +74,10 @@
 #boton_personalizado:hover {
     color: #1883ba;
     background-color: #ffffff;
+}
+
+#BotonesD {
+    text-align: center;
 }
 
 #img1 {
