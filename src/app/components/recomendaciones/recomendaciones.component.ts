@@ -434,4 +434,125 @@ export class RecomendacionesComponent implements OnInit {
     }
     
   }
+  MiRutina():void{
+    this.arregloRutina = [];
+    var Info = this.Almacenamiento.ObtenerInformacionLS("Usuario");
+    var o = JSON.parse(Info);
+    var CodigoUsuarioH = o.user;
+    var FechaNac = o.Nacimiento.substring(0,10);
+    console.log("aaaaaaaaaaaaaa-" + FechaNac);
+    var FechaOficial:Date = new Date(FechaNac);
+    var today = new Date();
+    var yyyy = today.getFullYear();
+    this.Microservicio.FichaRutina(CodigoUsuarioH).subscribe((resp: any) => {
+      if (resp.msg == true) { 
+        var Estatura = 0;
+        var Peso = 0;
+        var IMC = 0;
+        var Edad = yyyy - FechaOficial.getFullYear();
+        console.log("Sonreir-1"+resp.info[0].Estatura);
+        console.log("Sonreir-1"+resp.info[0].Peso);
+        if(resp.info[0].Estatura != null && resp.info[0].Peso != null &&
+          resp.info[0].Estatura != 0  && resp.info[0].Peso != 0){
+            Peso = resp.info[0].Peso * 0.453592;
+            Estatura = resp.info[0].Estatura;
+            IMC = Peso / (Estatura * Estatura);
+            console.log("aaaaaaaaaPESO.a-" + Peso);
+            console.log("aaaaaaaaaESTATURA.a-" + Estatura);
+            console.log("aaaaaaaaaIMC.a-" + IMC);
+            console.log("aaaaaaaaaEDAD.a-" + Edad);
+            this.ParrafoEjercicio = "Se muestran todas las rutinas de ejercicios que se encuentran en nuestro sistema, cada una indicando el nivel de dificultad que posee, estos datos son obtenidos por tu Indice de Masa Corporal IMC, el cual tiene un valor de " + IMC.toFixed(2) + " y tu edad de " + Edad + " años.";
+            if(IMC <= 18.5){
+              this.ParrafoEjercicio =  this.ParrafoEjercicio  + " Tu IMC indica que tienes un peso inferior al normal, por lo cual te recomendamos visitar un nutriologo o especialista, para llegar a tu peso ideal. Tambien te recomendamos estos ejercicios para ganar peso muscular."
+              this.Microservicio.RutinasNivel("1").subscribe((resp2: any) => {
+                if (resp2.msg == true) { 
+                  for (let MensajeRecibido of resp2.info) {
+                    this.arregloRutina.push( {
+                      "Nombre": MensajeRecibido.Nombre,
+                      "Duracion": MensajeRecibido.Duracion,
+                      "Series": MensajeRecibido.Series,
+                      "Repeticiones": MensajeRecibido.Repeticiones,
+                      "Imagen": MensajeRecibido.Imagen,
+                      "Nivel": MensajeRecibido.Nivel,
+                      "Descripcion": MensajeRecibido.Descripcion
+                    });
+                  }
+                }
+              });
+            }else if(IMC > 18.5 && IMC <=24.9){
+              this.ParrafoEjercicio =  this.ParrafoEjercicio  + " Tu IMC indica que tienes un peso Normal, te recomendamos los siguientes ejercicios."
+              this.Microservicio.RutinasNivel("2").subscribe((resp2: any) => {
+                if (resp2.msg == true) { 
+                  for (let MensajeRecibido of resp2.info) {
+                    this.arregloRutina.push( {
+                      "Nombre": MensajeRecibido.Nombre,
+                      "Duracion": MensajeRecibido.Duracion,
+                      "Series": MensajeRecibido.Series,
+                      "Repeticiones": MensajeRecibido.Repeticiones,
+                      "Imagen": MensajeRecibido.Imagen,
+                      "Nivel": MensajeRecibido.Nivel,
+                      "Descripcion": MensajeRecibido.Descripcion
+                    });
+                  }
+                  this.Microservicio.RutinasNivel("3").subscribe((resp3: any) => {
+                    if (resp3.msg == true) { 
+                      for (let MensajeRecibido of resp3.info) {
+                        this.arregloRutina.push( {
+                          "Nombre": MensajeRecibido.Nombre,
+                          "Duracion": MensajeRecibido.Duracion,
+                          "Series": MensajeRecibido.Series,
+                          "Repeticiones": MensajeRecibido.Repeticiones,
+                          "Imagen": MensajeRecibido.Imagen,
+                          "Nivel": MensajeRecibido.Nivel,
+                          "Descripcion": MensajeRecibido.Descripcion
+                        });
+                      }
+                    }
+                  });
+                }
+              });
+            }else if(IMC > 24.9 && IMC <=29.9){
+              this.ParrafoEjercicio =  this.ParrafoEjercicio  + " Tu IMC indica que tienes un peso superior a lo normal, por lo cual te recomendamos los siguientes ejercicios"
+              this.Microservicio.RutinasNivel("2").subscribe((resp2: any) => {
+                if (resp2.msg == true) { 
+                  for (let MensajeRecibido of resp2.info) {
+                    this.arregloRutina.push( {
+                      "Nombre": MensajeRecibido.Nombre,
+                      "Duracion": MensajeRecibido.Duracion,
+                      "Series": MensajeRecibido.Series,
+                      "Repeticiones": MensajeRecibido.Repeticiones,
+                      "Imagen": MensajeRecibido.Imagen,
+                      "Nivel": MensajeRecibido.Nivel,
+                      "Descripcion": MensajeRecibido.Descripcion
+                    });
+                  }
+                }
+              });
+            }else if(IMC > 29.9){
+              this.ParrafoEjercicio =  this.ParrafoEjercicio  + " Tu IMC indica que tienes sobrepeso, por lo cual te recomendamos los siguientes ejercios."
+              this.Microservicio.RutinasNivel("1").subscribe((resp2: any) => {
+                if (resp2.msg == true) { 
+                  for (let MensajeRecibido of resp2.info) {
+                    this.arregloRutina.push( {
+                      "Nombre": MensajeRecibido.Nombre,
+                      "Duracion": MensajeRecibido.Duracion,
+                      "Series": MensajeRecibido.Series,
+                      "Repeticiones": MensajeRecibido.Repeticiones,
+                      "Imagen": MensajeRecibido.Imagen,
+                      "Nivel": MensajeRecibido.Nivel,
+                      "Descripcion": MensajeRecibido.Descripcion
+                    });
+                  }
+                }
+              });
+            }
+        }else{
+          this.Alamars.Mensaje_De_Error("DATOS NO ENCONTRADOS","Usted no tiene registrado Estatura, peso o fecha de nacimiento en el sistema.")
+        }
+      }else{
+        this.Alamars.Mensaje_De_Error("FICHA NO ENCONTRADA","No logramos encontrar registros de una ficha medica, por lo cual no podemos recomendarte una rutina especifica.");
+        this.RutinaCompleta();
+      }
+    });
+  }
 }
