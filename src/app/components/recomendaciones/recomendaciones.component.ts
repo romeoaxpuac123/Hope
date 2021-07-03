@@ -3,7 +3,6 @@ import { MicroserviciosService } from '../../services/microservicios.service';
 import { LocalService } from '../../services/local.service';
 import { Router } from '@angular/router';
 import { AlertasComponent } from '../alertas/alertas.component';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-recomendaciones',
   templateUrl: './recomendaciones.component.html',
