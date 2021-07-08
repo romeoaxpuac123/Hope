@@ -26,7 +26,7 @@ export class MicroserviciosService {
   }
   SesionCliente(correo:string,password:string){
     
-    let urlAPI = 'http://localhost:3003/authCliente';
+    let urlAPI = 'http://35.222.115.56:3003/authCliente';
     return this._http.post(urlAPI,{
       "email": correo,
       "pass": password,
@@ -35,7 +35,7 @@ export class MicroserviciosService {
    
   }
   SesionMedico(correo:string,password:string){
-    let urlAPI = 'http://localhost:3003/authMedico';
+    let urlAPI = 'http://35.222.115.56:3003/authMedico';
     return this._http.post(urlAPI,{
       "email": correo,
       "pass": password,
@@ -44,7 +44,7 @@ export class MicroserviciosService {
   }
 
   RegistrarMedico(Nombre:string,Apellido:string,password:string, email:string,Chas:string){
-    let urlAPI = 'http://localhost:3003/regisMedico';
+    let urlAPI = 'http://35.222.115.56:3003/regisMedico';
     return this._http.post(urlAPI,{
       "Nombre": Nombre,
       "Apellido": Apellido,
@@ -55,7 +55,7 @@ export class MicroserviciosService {
   }
 
   registrarCliente(Nombre:string,Apellido:string,password:string, email:string, genero:string, fecha:string,foto:string, Chas:string){
-    let urlAPI = 'http://localhost:3003/regisCliente';
+    let urlAPI = 'http://35.222.115.56:3003/regisCliente';
     return this._http.post(urlAPI,{
       "Nombre": Nombre,
       "Apellido": Apellido,
@@ -69,7 +69,7 @@ export class MicroserviciosService {
   }
 
   ActivarCuenta(correo:string,codigo:string,tipo:string){
-    let urlAPI = 'http://localhost:3003/authCuenta';
+    let urlAPI = 'http://35.222.115.56:3003/authCuenta';
     return this._http.post(urlAPI,{
       "email": correo,
       "codigo": codigo,
@@ -78,7 +78,7 @@ export class MicroserviciosService {
   }
 
   CorreoCuenta(email:string,codigo:string,nombre:string,password:string){
-    let urlAPI = 'http://localhost:3003/Correo';
+    let urlAPI = 'http://35.222.115.56:3003/Correo';
     return this._http.post(urlAPI,{
       "email": email,
       "codigo": codigo,
@@ -88,7 +88,7 @@ export class MicroserviciosService {
   }
 
   Contactanos(nombre:string,asunto:string,correo:string){
-    let urlAPI = 'http://localhost:3003/Respuesta';
+    let urlAPI = 'http://35.222.115.56:3003/Respuesta';
     return this._http.post(urlAPI,{
       "nombre": nombre,
       "asunto": asunto,
@@ -97,7 +97,7 @@ export class MicroserviciosService {
   }
 
   InfoContacanos(nombre:string,asunto:string,correo:string,mensaje:string){
-    let urlAPI = 'http://localhost:3003/MensajeC';
+    let urlAPI = 'http://35.222.115.56:3003/MensajeC';
     return this._http.post(urlAPI,{
       "nombre": nombre,
       "asunto": asunto,
@@ -108,7 +108,7 @@ export class MicroserviciosService {
 
   ActualizarCliente(user:number,Nombre:string,Apellido:string,
     password:string,email:string,genero:string,FechaNac:string,fotografia:string){
-    let urlAPI = 'http://localhost:3003/UpdateCliente';
+    let urlAPI = 'http://35.222.115.56:3003/UpdateCliente';
     return this._http.post(urlAPI,{
       "user": user,
       "Nombre": Nombre,
@@ -124,7 +124,7 @@ export class MicroserviciosService {
 
   ActualizarMedico(user:number,Nombre:string,Apellido:string,
     password:string,email:string){
-    let urlAPI = 'http://localhost:3003/UpdateMedico';
+    let urlAPI = 'http://35.222.115.56:3003/UpdateMedico';
     return this._http.post(urlAPI,{
       "User": user,
       "Nombre": Nombre,
@@ -135,7 +135,7 @@ export class MicroserviciosService {
   }
   //Servicios para ficha medica
   ObtenerFicha(user:number){
-    let urlAPI = 'http://localhost:3003/ExisteFicha';
+    let urlAPI = 'http://35.222.115.56:3003/ExisteFicha';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": user
     })
@@ -147,7 +147,7 @@ export class MicroserviciosService {
     Intolerancia2:string,Intolerancia3:string,Cirujias:number,
     Enfermedad1:string,Enfermedad2:string,Enfermedad3:string
     ){
-    let urlAPI = 'http://localhost:3003/regisFicha';
+    let urlAPI = 'http://35.222.115.56:3003/regisFicha';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente,
       "Estatura":Estatura,
@@ -176,7 +176,7 @@ export class MicroserviciosService {
     Intolerancia2:string,Intolerancia3:string,Cirujias:number,
     Enfermedad1:string,Enfermedad2:string,Enfermedad3:string
     ){
-    let urlAPI = 'http://localhost:3003/UpdateFicha';
+    let urlAPI = 'http://35.222.115.56:3003/UpdateFicha';
     return this._http.post(urlAPI,{
       "External_ID_Ficha":External_ID_Ficha,
       "External_ID_Cliente": External_ID_Cliente,
@@ -200,26 +200,26 @@ export class MicroserviciosService {
   }
 
   ExisteMedico(email:string){
-    let urlAPI = 'http://localhost:6003/CorreoMedico';
+    let urlAPI = 'http://35.222.115.56:6003/CorreoMedico';
     return this._http.post(urlAPI,{
       "email": email
     })
   }
   ExisteCliente(email:string){
-    let urlAPI = 'http://localhost:6003/CorreoCliente';
+    let urlAPI = 'http://35.222.115.56:6003/CorreoCliente';
     return this._http.post(urlAPI,{
       "email": email
     })
   }
   ExisteAsignacionMedica(External_ID_Cliente:number,External_ID_Medico:number){
-    let urlAPI = 'http://localhost:6003/ExisteAsignacionMedica';
+    let urlAPI = 'http://35.222.115.56:6003/ExisteAsignacionMedica';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente,
       "External_ID_Medico":External_ID_Medico
     })
   }
   AsignacionMedica(External_ID_Cliente:number,External_ID_Medico:number){
-    let urlAPI = 'http://localhost:6003/AsignacionMedica';
+    let urlAPI = 'http://35.222.115.56:6003/AsignacionMedica';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente,
       "External_ID_Medico":External_ID_Medico
@@ -227,7 +227,7 @@ export class MicroserviciosService {
   }
   GuardarMensaje(Internal_ID_Asignacion:number,Mensaje:string,Emisor:string,EmailEmisor:string,EmailReceptor:string,Asunto:string)
   :Observable<any>{
-    let urlAPI = 'http://localhost:6003/AgregarMensaje';
+    let urlAPI = 'http://35.222.115.56:6003/AgregarMensaje';
     return this._http.post(urlAPI,{
       "Internal_ID_Asignacion": Internal_ID_Asignacion,
       "Mensaje":Mensaje,
@@ -243,20 +243,20 @@ export class MicroserviciosService {
     )
   }
   Mensajes(Email:string){
-    let urlAPI = 'http://localhost:6003/MostrarMensajes';
+    let urlAPI = 'http://35.222.115.56:6003/MostrarMensajes';
     return this._http.post(urlAPI,{
       "Email": Email
     })
   }
   IdHematologa(Nombre:string){
-    let urlAPI = 'http://localhost:5003/idHematologia';
+    let urlAPI = 'http://35.222.115.56:5003/idHematologia';
     return this._http.post(urlAPI,{
       "Nombre": Nombre
     })
   }
   RegistrarHematologa(Internal_ID_Hematologia:number,External_ID_Cliente:number,Cantidad:number,Fecha_Registro:string)
   :Observable<any>{
-    let urlAPI = 'http://localhost:5003/RegistrarHematologia';
+    let urlAPI = 'http://35.222.115.56:5003/RegistrarHematologia';
     return this._http.post(urlAPI,{
       "Internal_ID_Hematologia": Internal_ID_Hematologia,
       "External_ID_Cliente": External_ID_Cliente,
@@ -270,21 +270,21 @@ export class MicroserviciosService {
   }
 
   ObtenerHematologiasTotales(External_ID_Cliente:number){
-    let urlAPI = 'http://localhost:5003/MostrarHematologias';
+    let urlAPI = 'http://35.222.115.56:5003/MostrarHematologias';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente
     })
   }
 
   ObtenerNombreHematologias(){
-    let urlAPI = 'http://localhost:5003/Hematologias';
+    let urlAPI = 'http://35.222.115.56:5003/Hematologias';
     return this._http.post(urlAPI,{
       "Nombre":"Nombre"
     })
   }
 
   verHematologias(External_ID_Cliente:number,Internal_ID_Hematologia:number,Fecha_Registro:string,Fecha_Registro2:string){
-    let urlAPI = 'http://localhost:5003/BuscarHematologia';
+    let urlAPI = 'http://35.222.115.56:5003/BuscarHematologia';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente,
       "Internal_ID_Hematologia":Internal_ID_Hematologia,
@@ -294,7 +294,7 @@ export class MicroserviciosService {
   }
 
   IdHematologaReporte(Nombre:string){
-    let urlAPI = 'http://localhost:8003/idHematologia';
+    let urlAPI = 'http://35.222.115.56:8003/idHematologia';
     return this._http.post(urlAPI,{
       "Nombre": Nombre
     })
@@ -302,7 +302,7 @@ export class MicroserviciosService {
 
 
   verHematologiasReportes(External_ID_Cliente:number,Internal_ID_Hematologia:number,Fecha_Registro:string,Fecha_Registro2:string){
-    let urlAPI = 'http://localhost:8003/BuscarHematologia';
+    let urlAPI = 'http://35.222.115.56:8003/BuscarHematologia';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente,
       "Internal_ID_Hematologia":Internal_ID_Hematologia,
@@ -312,14 +312,14 @@ export class MicroserviciosService {
   }
 
   ObtenerNombreHematologiasReportes(){
-    let urlAPI = 'http://localhost:8003/Hematologias';
+    let urlAPI = 'http://35.222.115.56:8003/Hematologias';
     return this._http.post(urlAPI,{
       "Nombre":"Nombre"
     })
   }
 
   ObtenerPrePost(External_ID_Cliente:number,Fecha_Registro:string,Fecha_Registro2:string){
-    let urlAPI = 'http://localhost:8003/BuscarPrePost';
+    let urlAPI = 'http://35.222.115.56:8003/BuscarPrePost';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente,
       "Fecha_Registro": Fecha_Registro,
@@ -327,7 +327,7 @@ export class MicroserviciosService {
     })
   }
   ObtenerTotalGlucosa(External_ID_Cliente:number,Fecha_Registro:string,Fecha_Registro2:string){
-    let urlAPI = 'http://localhost:8003/TotalGlucosa';
+    let urlAPI = 'http://35.222.115.56:8003/TotalGlucosa';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente,
       "Fecha_Registro": Fecha_Registro,
@@ -336,7 +336,7 @@ export class MicroserviciosService {
   }
 
   ObtenerDosColesterol(External_ID_Cliente:number,Fecha_Registro:string,Fecha_Registro2:string){
-    let urlAPI = 'http://localhost:8003/BuscarColesterol';
+    let urlAPI = 'http://35.222.115.56:8003/BuscarColesterol';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente,
       "Fecha_Registro": Fecha_Registro,
@@ -344,26 +344,26 @@ export class MicroserviciosService {
     })
   }
   verHematologiasReportes2(External_ID_Cliente:number,Internal_ID_Hematologia:number){
-    let urlAPI = 'http://localhost:8003/BuscarHematologia2';
+    let urlAPI = 'http://35.222.115.56:8003/BuscarHematologia2';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente,
       "Internal_ID_Hematologia":Internal_ID_Hematologia
     })
   }
   ObtenerPrePost2(External_ID_Cliente:number){
-    let urlAPI = 'http://localhost:8003/BuscarPrePost2';
+    let urlAPI = 'http://35.222.115.56:8003/BuscarPrePost2';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente
     })
   }
   ObtenerTotalGlucosa2(External_ID_Cliente:number){
-    let urlAPI = 'http://localhost:8003/TotalGlucosa2';
+    let urlAPI = 'http://35.222.115.56:8003/TotalGlucosa2';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente
     })
   }
   ObtenerDosColesterol2(External_ID_Cliente:number){
-    let urlAPI = 'http://localhost:8003/BuscarColesterol2';
+    let urlAPI = 'http://35.222.115.56:8003/BuscarColesterol2';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente
     })
@@ -371,32 +371,32 @@ export class MicroserviciosService {
  
   //MICROSERVICIO MEDICOS
   ObtenerPacientes(External_ID_Medico:number){
-    let urlAPI = 'http://localhost:7003/MisPacientes';
+    let urlAPI = 'http://35.222.115.56:7003/MisPacientes';
     return this._http.post(urlAPI,{
       "External_ID_Medico": External_ID_Medico
     })
   }
   DatosPaciente(External_ID_Cliente:number){
-    let urlAPI = 'http://localhost:7003/DatosPaciente';
+    let urlAPI = 'http://35.222.115.56:7003/DatosPaciente';
     return this._http.post(urlAPI,{
       "External_ID_Cliente": External_ID_Cliente
     })
   }
   Relacion(External_ID_Medico:number,Email:string){
-    let urlAPI = 'http://localhost:7003/Relacion';
+    let urlAPI = 'http://35.222.115.56:7003/Relacion';
     return this._http.post(urlAPI,{
       "External_ID_Medico": External_ID_Medico,
       "Email":Email
     })
   }
   CodigoPaciente(Email:string){
-    let urlAPI = 'http://localhost:7003/CodigoPaciente';
+    let urlAPI = 'http://35.222.115.56:7003/CodigoPaciente';
     return this._http.post(urlAPI,{
       "Email":Email
     })
   }
   Asignacion(External_ID_Cliente:number,External_ID_Medico:number):Observable<any>{
-    let urlAPI = 'http://localhost:7003/Asignacion';
+    let urlAPI = 'http://35.222.115.56:7003/Asignacion';
     return this._http.post(urlAPI,{
       "External_ID_Cliente":External_ID_Cliente,
       "External_ID_Medico": External_ID_Medico
@@ -407,19 +407,19 @@ export class MicroserviciosService {
     )
   }
   Menu(){
-    let urlAPI = 'http://localhost:4003/Menu';
+    let urlAPI = 'http://35.222.115.56:4003/Menu';
     return this._http.post(urlAPI,{
       "nombre" : "HopeDiabeticBD"
     })
   }
   UltimosRegistrosRecomendaciones(External_ID_Cliente:number){
-    let urlAPI = 'http://localhost:4003/UltimosRegistros';
+    let urlAPI = 'http://35.222.115.56:4003/UltimosRegistros';
     return this._http.post(urlAPI,{
       "External_ID_Cliente" : External_ID_Cliente
     })
   }
   MenuRecomendacion(Calorias:number,Grasa:number,Colesterol:number,Carbohidratos:number,Azucares:number,Tipo:string){
-    let urlAPI = 'http://localhost:4003/MenuRecomendacion';
+    let urlAPI = 'http://35.222.115.56:4003/MenuRecomendacion';
     return this._http.post(urlAPI,{
       "Calorias" : Calorias,
       "Grasa":Grasa,
@@ -430,25 +430,25 @@ export class MicroserviciosService {
     })
   }
   MenuIntolerancias(External_ID_Cliente:number){
-    let urlAPI = 'http://localhost:4003/Intolerancias';
+    let urlAPI = 'http://35.222.115.56:4003/Intolerancias';
     return this._http.post(urlAPI,{
       "External_ID_Cliente" : External_ID_Cliente
     });
   }
   Rutinas(){
-    let urlAPI = 'http://localhost:4003/Rutinas';
+    let urlAPI = 'http://35.222.115.56:4003/Rutinas';
     return this._http.post(urlAPI,{
       "Nombre" : "HopeDiabetic"
     });
   }
   RutinasNivel(Nivel:string){
-    let urlAPI = 'http://localhost:4003/RutinasNivel';
+    let urlAPI = 'http://35.222.115.56:4003/RutinasNivel';
     return this._http.post(urlAPI,{
       "Nivel" : Nivel
     });
   }
   FichaRutina(External_ID_Cliente:number){
-    let urlAPI = 'http://localhost:4003/FichaRecomendacion';
+    let urlAPI = 'http://35.222.115.56:4003/FichaRecomendacion';
     return this._http.post(urlAPI,{
       "External_ID_Cliente" : External_ID_Cliente
     });

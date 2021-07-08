@@ -45,8 +45,8 @@ export class MenuComponent implements OnInit {
       this.VerMenu = true;      
     } else {
       tipo.className = "menu-collapsed";
-      cuerpo.style = "margin-left: 50px;"
-      cabeza.firstChild.style = "margin-left: 50px;"
+      cuerpo.style = "margin-left: 60px;"
+      cabeza.firstChild.style = "margin-left: 60px;"
       titulo.title="Desplegar Menú";
       this.VerMenu = false;
     }
