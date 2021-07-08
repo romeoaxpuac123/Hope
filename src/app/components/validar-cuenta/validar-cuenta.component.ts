@@ -44,7 +44,7 @@ export class ValidarCuentaComponent implements OnInit {
  
   Inicio(){
     this.Alamars.Mensaje_De_Espera();
-    window.location.href='http://localhost:4200/';
+    window.location.href='http://35.226.31.78:4200/';
   }
 
 }

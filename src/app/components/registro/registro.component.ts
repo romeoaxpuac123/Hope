@@ -157,7 +157,7 @@ export class RegistroComponent implements OnInit {
           let chas = this. ChashItem();
           console.log(chas);
           this.CorreoConfirmacion(this.CorreoRegistro,
-            "http://localhost:4200/Cuenta/"+this.CorreoRegistro+"&&"+chas+"&&"+"1",this.NombreRegistro,this.PassWord
+            "http://35.226.31.78:4200/Cuenta/"+this.CorreoRegistro+"&&"+chas+"&&"+"1",this.NombreRegistro,this.PassWord
             );
           this.RegistrarCliente(
             this.NombreRegistro,this.ApellidoRegistro,this.PassWord,
