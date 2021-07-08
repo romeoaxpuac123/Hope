@@ -198,7 +198,7 @@ export class RegistroComponent implements OnInit {
         console.log("Registro Cliente ------------");
         this.Alamars.Mensaje_De_Confirmacion("Bienvenido", "Al correo ingresado se le envio un mensaj para validar su cuenta.")
 
-        this.navegacion.navigate(['']);
+        window.location.href='http://34.132.31.121:4200/';
 
       } else {
         console.log("No sesion-----------");
