@@ -220,7 +220,7 @@ export class RecomendacionesComponent implements OnInit {
     var o = JSON.parse(Info);
     var CodigoUsuarioH = o.user;
     if(this.TipoAlimento == ""){
-      this.Alamars.Mensaje_De_Error("Error", "Seleccione el tipo de platico que busca");
+      this.Alamars.Mensaje_De_Error("Error", "Seleccione el tipo de platillo que busca");
     }else{
       this.Microservicio.UltimosRegistrosRecomendaciones(CodigoUsuarioH).subscribe((resp: any) => {
         if (resp.msg == true) {
@@ -427,7 +427,8 @@ export class RecomendacionesComponent implements OnInit {
             }
           });
         }else{
-          this.Alamars.Mensaje_De_Error("Error","Estamos experimentando errores, intentelo más adelante.")
+          this.Alamars.Mensaje_De_ALERTA("ERROR","No podemos darte una recomendación, debido a que no conocemos tu estado actual de salud, por favor llena tu ficha médica y añade tus últimas hematologias al sistema");
+          this.RutinaCompleta();
         }
       });
     }

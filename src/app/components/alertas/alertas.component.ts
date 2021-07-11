@@ -60,6 +60,18 @@ export class AlertasComponent implements OnInit {
     })
   }
 
+  Mensaje_De_ALERTA(titulo: string, Descripcion: string) {
+    Swal.fire({
+      background: '#fff no-repeat center url(https://github.com/romeoaxpuac123/MisImagenes/blob/main/Pruebas/Prueba.png?raw=true)',
+      imageUrl: 'https://github.com/romeoaxpuac123/MisImagenes/blob/main/Diabetic/Iconos/advertencia.png?raw=true',
+      imageHeight: 120,
+      title: "<a style=\"color:black\">" + titulo + "</a>",
+      text: Descripcion,
+      confirmButtonText: "Aceptar",
+      confirmButtonColor: "black",
+    })
+  }
+
   Mensaje_Estas_Seguro(TituloCorrecto: string, DescricionCorrecta: string,
     TituloIncorrecto: string, DescripcionIncorrecta: string) {
     Swal.fire({
